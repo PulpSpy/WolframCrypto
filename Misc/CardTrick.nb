@@ -1,0 +1,482 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 6.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[     23473,        474]
+NotebookOptionsPosition[     22454,        450]
+NotebookOutlinePosition[     22870,        466]
+CellTagsIndexPosition[     22827,        463]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["A Card Trick", "Title",
+ CellChangeTimes->{{3.3962606275386972`*^9, 3.3962606307566977`*^9}, {
+  3.435808175894474*^9, 
+  3.4358081762360697`*^9}},ExpressionUUID->"f23b4f02-e814-414d-b8cd-\
+a4d35b976e3c"],
+
+Cell["\<\
+Text from:
+http://jeremyclark.wordpress.com/2007/08/10/a-card-trick/
+
+An article by John Allen Paulos tipped me off to an interesting card trick. \
+The trick is mathematical, and based on probability theory not sleight of \
+hand. You get rid of the face cards in a deck (leaving the aces, which will \
+be treated as 1\[CloseCurlyQuote]s), and give it a good shuffle. You then \
+tell someone you are trying to impress to pick a secret number between 1 and \
+10. Let\[CloseCurlyQuote]s say she picks 7\[LongDash]after all, we all know \
+that prime numbers are more random ;) . You then ask her to count (from 1\
+\[Ellipsis] if she is geeky enough to count from 0, she\[CloseCurlyQuote]s \
+probably not going to find the trick very impressive) the cards as you slowly \
+turn them over. When the cards reach her number, the 7th card, she looks at \
+the number on the card and this her new secret number. She then starts \
+counting cards again from 1 to her new number, and repeats the process. \
+Towards the end of the deck, you pause after overturning a card, tap it, and \
+declare it to be the secret card she was counting towards.
+
+The trick is to do the same thing you\[CloseCurlyQuote]ve ask her to do with \
+the first card and go through the process in your head as you are performing \
+the trick. The probability is in favor of your chain of numbers colliding at \
+some point with hers, after which every number in the sequence will be the \
+same (the chains have been \[OpenCurlyDoubleQuote]coupled\
+\[CloseCurlyDoubleQuote]). As you near the end of the deck, you guess your \
+own secret card with the confidence that it will be the same as hers.
+
+To see it in action, here is a graph showing how such a game might progress. \
+The numbers on the graph are not the series of secret numbers themselves, but \
+rather the position of the secret cards in the deck.
+
+If you run it a few times, you'll see that sometimes, it doesn\
+\[CloseCurlyQuote]t work out perfectly.
+
+So what is the probability that the trick will actually work? Working out the \
+solution is more difficult than it sounds, but it has been found empirically \
+to be about 83.7% for this variation (other variations leave the face cards \
+in, and have them count as 5\[CloseCurlyQuote]s, raising the probability of \
+succeeding a couple points).\
+\>", "Text",
+ CellChangeTimes->{{3.4358082171489773`*^9, 3.4358082856063957`*^9}, {
+  3.435808441539111*^9, 3.4358084480507603`*^9}, {3.887135190900873*^9, 
+  3.8871351953768873`*^9}},ExpressionUUID->"85c0391c-bcdc-40cf-85bf-\
+a4f3ea087c1c"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", "Parameters", " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"n", "=", "10"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"m", "=", "4"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", "Packages", " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Needs", "[", "\"\<Combinatorica`\>\"", "]"}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", "Code", " ", "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"deck", "=", 
+     RowBox[{
+      RowBox[{"Flatten", "[", 
+       RowBox[{"Table", "[", 
+        RowBox[{
+         RowBox[{"Range", "[", 
+          RowBox[{"1", ",", "n"}], "]"}], ",", 
+         RowBox[{"{", "m", "}"}]}], "]"}], "]"}], "//", 
+      "RandomPermutation"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<\\n\\nShuffled Deck: \>\"", ",", "%"}], "]"}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"f", "[", "x_", "]"}], ":=", 
+    RowBox[{"NestWhileList", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"deck", "[", 
+         RowBox[{"[", "#", "]"}], "]"}], "+", "#"}], "&"}], ",", "x", ",", 
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{"deck", "[", 
+          RowBox[{"[", "#", "]"}], "]"}], "+", "#"}], "\[LessEqual]", 
+        RowBox[{"Length", "[", "deck", "]"}]}], "&"}]}], "]"}]}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"g", "[", "x_", "]"}], ":=", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"Rule", "@@", "#"}], "&"}], "/@", 
+     RowBox[{"Transpose", "[", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"Most", "[", "x", "]"}], ",", 
+        RowBox[{"Rest", "[", "x", "]"}]}], "}"}], "]"}]}]}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"h", "[", "x_", "]"}], ":=", 
+     RowBox[{
+      RowBox[{"g", "/@", 
+       RowBox[{"f", "/@", 
+        RowBox[{"Range", "[", "x", "]"}]}]}], "//", "Flatten"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"h", "[", "n", "]"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"LayeredGraphPlot", "[", 
+    RowBox[{"%", ",", 
+     RowBox[{"DirectedEdges", "\[Rule]", "True"}], ",", 
+     RowBox[{"VertexLabeling", "\[Rule]", "True"}], ",", 
+     RowBox[{"MultiedgeStyle", "\[Rule]", "0.3"}], ",", 
+     RowBox[{"PackingMethod", "\[Rule]", "\"\<LayeredTop\>\""}]}], "]"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"ent", "[", "x_", "]"}], ":=", 
+    RowBox[{
+     RowBox[{"-", "x"}], "*", 
+     RowBox[{"Log", "[", 
+      RowBox[{"2", ",", "x"}], "]"}]}]}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Last", "/@", 
+     RowBox[{"f", "/@", 
+      RowBox[{"Range", "[", "n", "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"DeleteCases", "[", 
+     RowBox[{
+      RowBox[{"BinCounts", "[", 
+       RowBox[{"%", ",", "1"}], "]"}], ",", "0"}], "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"N", "[", 
+     RowBox[{"Total", "[", 
+      RowBox[{"ent", "/@", 
+       RowBox[{"(", 
+        RowBox[{"%", "/", "10"}], ")"}]}], "]"}], "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<Entropy of the outcome: \>\"", ",", " ", "%"}], "]"}], 
+    ";"}]}]}]], "Input",
+ CellChangeTimes->{
+  3.3950736752609997`*^9, {3.395074701356*^9, 3.395074718615*^9}, {
+   3.395075021344*^9, 3.395075022176*^9}, {3.395172797385992*^9, 
+   3.395172822720992*^9}, {3.3951728940469923`*^9, 3.3951728946719923`*^9}, {
+   3.3951739725599923`*^9, 3.3951739742119923`*^9}, {3.395174006274992*^9, 
+   3.3951740096199923`*^9}, {3.395174122234992*^9, 3.3951741445379925`*^9}, {
+   3.395174193170992*^9, 3.395174371052992*^9}, {3.395174427873992*^9, 
+   3.3951744337169924`*^9}, {3.395174525265992*^9, 3.3951745961989923`*^9}, {
+   3.3951746581909924`*^9, 3.395174692215992*^9}, {3.395706718381*^9, 
+   3.395706776408*^9}, {3.395706907396*^9, 3.3957069245150003`*^9}, {
+   3.395706962288*^9, 3.3957069627869997`*^9}, {3.3962601443416977`*^9, 
+   3.396260160957698*^9}, {3.3962602168346977`*^9, 3.396260267761698*^9}, {
+   3.3962603027586975`*^9, 3.3962603215546975`*^9}, {3.4358078792554626`*^9, 
+   3.435807921660551*^9}, {3.4358079520357437`*^9, 3.435807954609952*^9}, {
+   3.4358079939453983`*^9, 3.4358080606703577`*^9}, {3.435808361158803*^9, 
+   3.435808419673596*^9}},
+ CellLabel->"In[26]:=",ExpressionUUID->"7d6c22d6-945a-4872-8840-810696f22b3b"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "General","compat",
+   "\"Combinatorica Graph and Permutations functionality has been superseded \
+by preloaded functionality. The package now being loaded may conflict with \
+this. Please see the Compatibility Guide for details.\"",2,28,1,
+   19708198618786990485,"Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.887135273487665*^9},
+ CellLabel->
+  "During evaluation of \
+In[26]:=",ExpressionUUID->"4b455ae5-6daf-4398-b47f-8e217152e986"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"\\n\\nShuffled Deck: \"\>", "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{
+    "6", ",", "1", ",", "8", ",", "5", ",", "7", ",", "2", ",", "1", ",", "5",
+      ",", "10", ",", "6", ",", "2", ",", "6", ",", "9", ",", "4", ",", "8", 
+     ",", "7", ",", "4", ",", "7", ",", "9", ",", "10", ",", "6", ",", "3", 
+     ",", "5", ",", "3", ",", "3", ",", "1", ",", "10", ",", "1", ",", "4", 
+     ",", "9", ",", "9", ",", "8", ",", "10", ",", "8", ",", "7", ",", "3", 
+     ",", "4", ",", "2", ",", "5", ",", "2"}], "}"}]}],
+  SequenceForm[
+  "\n\nShuffled Deck: ", {6, 1, 8, 5, 7, 2, 1, 5, 10, 6, 2, 6, 9, 4, 8, 7, 4, 
+   7, 9, 10, 6, 3, 5, 3, 3, 1, 10, 1, 4, 9, 9, 8, 10, 8, 7, 3, 4, 2, 5, 2}],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.4358080101523943`*^9, 3.435808019833275*^9}, {
+   3.435808061629393*^9, 3.435808087143067*^9}, {3.435808369209388*^9, 
+   3.435808419988984*^9}, 3.887135273789526*^9},
+ CellLabel->
+  "During evaluation of \
+In[26]:=",ExpressionUUID->"33805bfa-484c-44a7-b063-b5e0d62abcc0"],
+
+Cell[BoxData[
+ GraphicsBox[{
+   {Hue[0.6, 0.7, 0.5], Opacity[0.7], Arrowheads[0.048195084485407054`], 
+    ArrowBox[{{0., 8.}, {0., 7.}}, 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{0., 7.}, {0.8486001530105335, 
+     6.848600153010549}, {1., 6.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{0., 7.}, {0.1513998469894654, 
+     6.151399846989449}, {1., 6.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{1., 6.}, {1.3486001530105514`, 
+     5.499999999999982}, {1., 5.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{1., 6.}, {1.1176500621672163`, 
+     5.500000000000027}, {1., 5.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{1., 6.}, {0.8823499378327789, 
+     5.500000000000004}, {1., 5.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{1., 6.}, {0.6513998469894424, 
+     5.500000000000013}, {1., 5.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{1., 5.}, {1.3486001530105465`, 
+     4.499999999999974}, {1., 4.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{1., 5.}, {1.2109781663593964`, 
+     4.49999999999998}, {1., 4.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{1., 5.}, {1.0706690630968614`, 
+     4.500000000000112}, {1., 4.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{1., 5.}, {0.929330936903154, 4.5}, {1., 4.}}], 
+     0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{1., 5.}, {0.7890218336405951, 
+     4.499999999999959}, {1., 4.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{1., 5.}, {0.6513998469894545, 
+     4.500000000000008}, {1., 4.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{1., 4.}, {0.8486001530105342, 
+     3.151399846989458}, {0., 3.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{1., 4.}, {0.7109781663594134, 
+     3.289021833640586}, {0., 3.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{1., 4.}, {0.5706690630968607, 
+     3.4293309369031397`}, {0., 3.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{1., 4.}, {0.4293309369031554, 
+     3.5706690630968736`}, {0., 3.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{1., 4.}, {0.28902183364059064`, 
+     3.710978166359422}, {0., 3.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{1., 4.}, {0.15139984698945783`, 
+     3.848600153010525}, {0., 3.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{0., 3.}, {0.3486001530105365, 
+     2.4999999999999987`}, {0., 2.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{0., 3.}, {0.23413510155254888`, 2.5}, {0., 
+     2.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{0., 3.}, {0.11765006216721602`, 
+     2.4999999999999964`}, {0., 2.}}], 0.05783410138248847], 
+    ArrowBox[{{0., 3.}, {0., 2.}}, 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{0., 3.}, {-0.11765006216721602`, 
+     2.4999999999999964`}, {0., 2.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{0., 3.}, {-0.23413510155254888`, 2.5}, {0., 
+     2.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{0., 3.}, {-0.3486001530105365, 
+     2.4999999999999987`}, {0., 2.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{0., 2.}, {0.3486001530105392, 
+     1.4999999999999996`}, {0., 1.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{0., 2.}, {0.27254509496559465`, 
+     1.5000000000000013`}, {0., 1.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{0., 2.}, {0.19549729285708986`, 
+     1.5000000000000004`}, {0., 1.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{0., 2.}, {0.11765006216721607`, 
+     1.4999999999999964`}, {0., 1.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{0., 2.}, {0.03927792630210448, 
+     1.5000000000000004`}, {0., 1.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{0., 2.}, {-0.03927792630210448, 
+     1.5000000000000004`}, {0., 1.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{0., 2.}, {-0.11765006216721607`, 
+     1.4999999999999964`}, {0., 1.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{0., 2.}, {-0.19549729285708986`, 
+     1.5000000000000004`}, {0., 1.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{0., 2.}, {-0.27254509496559465`, 
+     1.5000000000000013`}, {0., 1.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{0., 2.}, {-0.3486001530105392, 
+     1.4999999999999996`}, {0., 1.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{0., 1.}, {0.3486001530105379, 
+     0.4999999999999982}, {0., 0.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{0., 1.}, {0.2725450949655949, 
+     0.5000000000000013}, {0., 0.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{0., 1.}, {0.19549729285708986`, 
+     0.49999999999999994`}, {0., 0.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{0., 1.}, {0.11765006216721612`, 
+     0.4999999999999968}, {0., 0.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{0., 1.}, {0.03927792630210465, 
+     0.5000000000000011}, {0., 0.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{0., 1.}, {-0.03927792630210465, 
+     0.5000000000000011}, {0., 0.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{0., 1.}, {-0.11765006216721612`, 
+     0.4999999999999968}, {0., 0.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{0., 1.}, {-0.19549729285708986`, 
+     0.49999999999999994`}, {0., 0.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{0., 1.}, {-0.2725450949655949, 
+     0.5000000000000013}, {0., 0.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{0., 1.}, {-0.3486001530105379, 
+     0.4999999999999982}, {0., 0.}}], 0.05783410138248847], 
+    ArrowBox[{{2., 8.}, {2., 7.}}, 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{2., 7.}, {2.3486001530105636`, 6.5}, {2., 6.}}],
+      0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{2., 7.}, {1.651399846989436, 
+     6.499999999999979}, {2., 6.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{2., 6.}, {1.8486001530105374`, 
+     5.151399846989474}, {1., 5.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{2., 6.}, {1.1513998469894795`, 
+     5.848600153010538}, {1., 5.}}], 0.05783410138248847], 
+    ArrowBox[{{-1., 5.}, {-1., 4.}}, 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{-1., 4.}, {-0.6513998469894641, 
+     3.4999999999999916`}, {-1., 3.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{-1., 4.}, {-1.3486001530105542`, 
+     3.500000000000025}, {-1., 3.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{-1., 3.}, {-0.151399846989461, 
+     2.8486001530105334`}, {0., 2.}}], 0.05783410138248847], 
+    ArrowBox[BezierCurveBox[{{-1., 3.}, {-0.8486001530105416, 
+     2.1513998469894617`}, {0., 2.}}], 0.05783410138248847], 
+    ArrowBox[{{0., 6.}, {0., 5.}}, 0.05783410138248847], 
+    ArrowBox[{{0., 5.}, {0., 4.}}, 0.05783410138248847], 
+    ArrowBox[{{0., 4.}, {0., 3.}}, 0.05783410138248847], 
+    ArrowBox[{{1., 7.}, {1., 6.}}, 0.05783410138248847], 
+    ArrowBox[{{2., 5.}, {2., 4.}}, 0.05783410138248847], 
+    ArrowBox[{{2., 4.}, {2., 3.}}, 0.05783410138248847], 
+    ArrowBox[{{2., 3.}, {0., 2.}}, 0.05783410138248847]}, 
+   {Hue[0.6, 0.2, 0.8], EdgeForm[{GrayLevel[0], Opacity[
+    0.7]}], {DiskBox[{0., 8.}, 0.05783410138248847], 
+     InsetBox["1", Offset[{2, 2}, {0.05783410138248847, 8.057834101382488}], 
+      ImageScaled[{0, 0}],
+      BaseStyle->"Graphics"]}, {DiskBox[{0., 7.}, 0.05783410138248847], 
+     InsetBox["7", Offset[{2, 2}, {0.05783410138248847, 7.057834101382489}], 
+      ImageScaled[{0, 0}],
+      BaseStyle->"Graphics"]}, {DiskBox[{1., 6.}, 0.05783410138248847], 
+     InsetBox["8", Offset[{2, 2}, {1.0578341013824886, 6.057834101382489}], 
+      ImageScaled[{0, 0}],
+      BaseStyle->"Graphics"]}, {DiskBox[{1., 5.}, 0.05783410138248847], 
+     InsetBox["13", Offset[{2, 2}, {1.0578341013824886, 5.057834101382489}], 
+      ImageScaled[{0, 0}],
+      BaseStyle->"Graphics"]}, {DiskBox[{1., 4.}, 0.05783410138248847], 
+     InsetBox["22", Offset[{2, 2}, {1.0578341013824886, 4.057834101382489}], 
+      ImageScaled[{0, 0}],
+      BaseStyle->"Graphics"]}, {DiskBox[{0., 3.}, 0.05783410138248847], 
+     InsetBox["25", Offset[{2, 2}, {0.05783410138248847, 3.0578341013824883}],
+       ImageScaled[{0, 0}],
+      BaseStyle->"Graphics"]}, {DiskBox[{0., 2.}, 0.05783410138248847], 
+     InsetBox["28", Offset[{2, 2}, {0.05783410138248847, 2.0578341013824883}],
+       ImageScaled[{0, 0}],
+      BaseStyle->"Graphics"]}, {DiskBox[{0., 1.}, 0.05783410138248847], 
+     InsetBox["29", Offset[{2, 2}, {0.05783410138248847, 1.0578341013824886}],
+       ImageScaled[{0, 0}],
+      BaseStyle->"Graphics"]}, {DiskBox[{0., 0.}, 0.05783410138248847], 
+     InsetBox["33", 
+      Offset[{2, 2}, {0.05783410138248847, 0.05783410138248847}], 
+      ImageScaled[{0, 0}],
+      BaseStyle->"Graphics"]}, {DiskBox[{2., 8.}, 0.05783410138248847], 
+     InsetBox["2", Offset[{2, 2}, {2.0578341013824883, 8.057834101382488}], 
+      ImageScaled[{0, 0}],
+      BaseStyle->"Graphics"]}, {DiskBox[{2., 7.}, 0.05783410138248847], 
+     InsetBox["3", Offset[{2, 2}, {2.0578341013824883, 7.057834101382489}], 
+      ImageScaled[{0, 0}],
+      BaseStyle->"Graphics"]}, {DiskBox[{2., 6.}, 0.05783410138248847], 
+     InsetBox["11", Offset[{2, 2}, {2.0578341013824883, 6.057834101382489}], 
+      ImageScaled[{0, 0}],
+      BaseStyle->"Graphics"]}, {DiskBox[{-1., 5.}, 0.05783410138248847], 
+     InsetBox["4", Offset[{2, 2}, {-0.9421658986175115, 5.057834101382489}], 
+      ImageScaled[{0, 0}],
+      BaseStyle->"Graphics"]}, {DiskBox[{-1., 4.}, 0.05783410138248847], 
+     InsetBox["9", Offset[{2, 2}, {-0.9421658986175115, 4.057834101382489}], 
+      ImageScaled[{0, 0}],
+      BaseStyle->"Graphics"]}, {DiskBox[{-1., 3.}, 0.05783410138248847], 
+     InsetBox["19", Offset[{2, 2}, {-0.9421658986175115, 3.0578341013824883}],
+       ImageScaled[{0, 0}],
+      BaseStyle->"Graphics"]}, {DiskBox[{0., 6.}, 0.05783410138248847], 
+     InsetBox["5", Offset[{2, 2}, {0.05783410138248847, 6.057834101382489}], 
+      ImageScaled[{0, 0}],
+      BaseStyle->"Graphics"]}, {DiskBox[{0., 5.}, 0.05783410138248847], 
+     InsetBox["12", Offset[{2, 2}, {0.05783410138248847, 5.057834101382489}], 
+      ImageScaled[{0, 0}],
+      BaseStyle->"Graphics"]}, {DiskBox[{0., 4.}, 0.05783410138248847], 
+     InsetBox["18", Offset[{2, 2}, {0.05783410138248847, 4.057834101382489}], 
+      ImageScaled[{0, 0}],
+      BaseStyle->"Graphics"]}, {DiskBox[{1., 7.}, 0.05783410138248847], 
+     InsetBox["6", Offset[{2, 2}, {1.0578341013824886, 7.057834101382489}], 
+      ImageScaled[{0, 0}],
+      BaseStyle->"Graphics"]}, {DiskBox[{2., 5.}, 0.05783410138248847], 
+     InsetBox["10", Offset[{2, 2}, {2.0578341013824883, 5.057834101382489}], 
+      ImageScaled[{0, 0}],
+      BaseStyle->"Graphics"]}, {DiskBox[{2., 4.}, 0.05783410138248847], 
+     InsetBox["16", Offset[{2, 2}, {2.0578341013824883, 4.057834101382489}], 
+      ImageScaled[{0, 0}],
+      BaseStyle->"Graphics"]}, {DiskBox[{2., 3.}, 0.05783410138248847], 
+     InsetBox["23", Offset[{2, 2}, {2.0578341013824883, 3.0578341013824883}], 
+      ImageScaled[{0, 0}],
+      BaseStyle->"Graphics"]}}},
+  FormatType->TraditionalForm,
+  FrameTicks->None]], "Output",
+ CellChangeTimes->{
+  3.395073675668*^9, {3.395073768251*^9, 3.395073787719*^9}, 
+   3.3950746329189997`*^9, {3.39507470549*^9, 3.395074719216*^9}, {
+   3.395075007999*^9, 3.3950750364820004`*^9}, 3.395172651774992*^9, 
+   3.395172693229992*^9, {3.395172798312992*^9, 3.395172895314992*^9}, 
+   3.3951734601979923`*^9, 3.395173863409992*^9, {3.395173975932992*^9, 
+   3.3951740103039923`*^9}, {3.3951741235409923`*^9, 
+   3.3951741451849923`*^9}, {3.3951742451979923`*^9, 
+   3.3951744342549925`*^9}, {3.3951744846579924`*^9, 3.395174491838992*^9}, {
+   3.395174542093992*^9, 3.3951747195999923`*^9}, {3.395706736152*^9, 
+   3.3957067846429996`*^9}, {3.395706855822*^9, 3.395706943007*^9}, 
+   3.396260166990698*^9, {3.396260204688698*^9, 3.3962602680846977`*^9}, {
+   3.3962603043276978`*^9, 3.3962603312256975`*^9}, 3.3962605970146976`*^9, 
+   3.4358079334264383`*^9, {3.435808010206764*^9, 3.435808019886672*^9}, {
+   3.435808061692758*^9, 3.435808087243952*^9}, {3.43580836926828*^9, 
+   3.435808420032917*^9}, 3.887135273891473*^9},
+ CellLabel->"Out[35]=",ExpressionUUID->"8e06b380-2fbd-4140-8b61-141f819e8919"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Entropy of the outcome: \"\>", "\[InvisibleSpace]", "0.`"}],
+  SequenceForm["Entropy of the outcome: ", 0.],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.4358080101523943`*^9, 3.435808019833275*^9}, {
+   3.435808061629393*^9, 3.435808087143067*^9}, {3.435808369209388*^9, 
+   3.435808419988984*^9}, 3.88713527392572*^9},
+ CellLabel->
+  "During evaluation of \
+In[26]:=",ExpressionUUID->"05977c97-70e6-4d6f-8d60-cedabc5a89d6"]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{640, 750},
+WindowMargins->{{52, Automatic}, {-18, Automatic}},
+PrivateNotebookOptions->{"VersionedStylesheet"->{"Default.nb"[8.] -> False}},
+FrontEndVersion->"12.0 for Mac OS X x86 (64-bit) (April 8, 2019)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[567, 22, 210, 4, 98, "Title",ExpressionUUID->"f23b4f02-e814-414d-b8cd-a4d35b976e3c"],
+Cell[780, 28, 2566, 43, 771, "Text",ExpressionUUID->"85c0391c-bcdc-40cf-85bf-a4f3ea087c1c"],
+Cell[CellGroupData[{
+Cell[3371, 75, 4718, 117, 661, "Input",ExpressionUUID->"7d6c22d6-945a-4872-8840-810696f22b3b"],
+Cell[8092, 194, 493, 11, 59, "Message",ExpressionUUID->"4b455ae5-6daf-4398-b47f-8e217152e986"],
+Cell[8588, 207, 1069, 20, 82, "Print",ExpressionUUID->"33805bfa-484c-44a7-b063-b5e0d62abcc0"],
+Cell[9660, 229, 12282, 205, 449, "Output",ExpressionUUID->"8e06b380-2fbd-4140-8b61-141f819e8919"],
+Cell[21945, 436, 481, 10, 24, "Print",ExpressionUUID->"05977c97-70e6-4d6f-8d60-cedabc5a89d6"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+

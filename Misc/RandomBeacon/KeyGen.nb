@@ -1,0 +1,179 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 7.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[      5705,        170]
+NotebookOptionsPosition[      5271,        150]
+NotebookOutlinePosition[      5613,        165]
+CellTagsIndexPosition[      5570,        162]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Key Generation (run once a year)", "Section",
+ CellChangeTimes->{{3.485613194290777*^9, 3.485613203301506*^9}, {
+  3.491840535358884*^9, 3.4918405408689013`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "Generate", " ", "a", " ", "key", " ", "for", " ", "specified", " ", 
+    "year"}], " ", "*)"}], " ", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"Year", "=", "2010"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"KeyLength", "=", "128"}], ";"}]}]}]], "Input",
+ CellChangeTimes->{{3.491840560333447*^9, 3.49184056116606*^9}, {
+  3.491840626043955*^9, 3.4918406381604557`*^9}, {3.49184104878997*^9, 
+  3.491841146471222*^9}, {3.491841196446926*^9, 3.491841197366413*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"EndDate", "=", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"Year", "-", "1"}], ",", "12", ",", "31"}], "}"}]}], 
+   "\[InvisibleSpace]", ";"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"EndDate", " ", "=", " ", 
+    RowBox[{"DateList", "[", "]"}]}], " ", "*)"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"VNExtract", "[", "prices_", "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", "deltas", "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"deltas", "=", 
+       RowBox[{"Sign", "[", 
+        RowBox[{"Differences", "[", "prices", "]"}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"deltas", "=", 
+       RowBox[{"Partition", "[", 
+        RowBox[{"deltas", ",", "2"}], "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"deltas", "=", 
+       RowBox[{"deltas", "/.", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"-", "1"}], ",", "1"}], "}"}], "\[Rule]", "0"}], ",", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"1", ",", 
+             RowBox[{"-", "1"}]}], "}"}], "\[Rule]", "1"}]}], "}"}]}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"deltas", "=", 
+       RowBox[{"Cases", "[", 
+        RowBox[{"deltas", ",", "_Integer", ",", "1"}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"deltas", "=", 
+       RowBox[{"Take", "[", 
+        RowBox[{"deltas", ",", 
+         RowBox[{"-", "KeyLength"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"deltas", "=", 
+       RowBox[{"FromDigits", "[", 
+        RowBox[{"deltas", ",", "2"}], "]"}]}], ";", "\[IndentingNewLine]", 
+      "deltas"}]}], "\[IndentingNewLine]", "]"}]}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"data", "=", 
+   RowBox[{"FinancialData", "[", 
+    RowBox[{"\"\<SP500\>\"", ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"2000", ",", "1", ",", "1"}], "}"}], ",", "EndDate"}], 
+      "}"}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"prices", "=", 
+   RowBox[{"data", "[", 
+    RowBox[{"[", 
+     RowBox[{"All", ",", "2"}], "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+
+ RowBox[{
+  RowBox[{
+   RowBox[{"seed", "=", 
+    RowBox[{"VNExtract", "[", "prices", "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{
+   "\"\<\\n The seed for year \>\"", ",", "Year", ",", "\"\< in hex:\\n\>\"", 
+    ",", 
+    RowBox[{"BaseForm", "[", 
+     RowBox[{"seed", ",", "16"}], "]"}]}], "]"}], 
+  ";"}], "\[IndentingNewLine]"}], "Input",
+ CellChangeTimes->{{3.4860557708643913`*^9, 3.486055795656777*^9}, {
+  3.491840134982181*^9, 3.491840158123294*^9}, {3.491840214949852*^9, 
+  3.49184022624295*^9}, {3.491840476434564*^9, 3.491840478828331*^9}, {
+  3.491840570212111*^9, 3.491840661032754*^9}, {3.49184070864281*^9, 
+  3.491840941759397*^9}, {3.49184103538303*^9, 3.491841041345207*^9}, {
+  3.491841178258304*^9, 3.491841186885623*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"\\n The seed for year \"\>", "\[InvisibleSpace]", "2010", 
+   "\[InvisibleSpace]", "\<\" in hex:\\n\"\>", "\[InvisibleSpace]", 
+   TagBox[
+    InterpretationBox[
+     SubscriptBox["\<\"e342777ca8293245e621f857cab03403\"\>", "\<\"16\"\>"],
+     302079870118917473106527991032766804995,
+     Editable->False],
+    BaseForm[#, 16]& ]}],
+  SequenceForm["\n The seed for year ", 2010, " in hex:\n", 
+   BaseForm[302079870118917473106527991032766804995, 16]],
+  Editable->False]], "Print",
+ CellChangeTimes->{{3.491840774366788*^9, 3.491840810269822*^9}, {
+  3.491840845604959*^9, 3.491840860666831*^9}, {3.4918408954741*^9, 
+  3.491840969562173*^9}, {3.491841036658094*^9, 3.491841149297571*^9}, {
+  3.491841188098625*^9, 3.491841200720305*^9}}]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{640, 750},
+WindowMargins->{{Automatic, 502}, {127, Automatic}},
+FrontEndVersion->"7.0 for Mac OS X x86 (32-bit) (November 10, 2008)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[567, 22, 168, 2, 67, "Section"],
+Cell[738, 26, 557, 13, 58, "Input"],
+Cell[CellGroupData[{
+Cell[1320, 43, 3131, 85, 298, "Input"],
+Cell[4454, 130, 789, 16, 53, "Print"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

@@ -1,0 +1,671 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 6.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[     33080,        663]
+NotebookOptionsPosition[     31546,        627]
+NotebookOutlinePosition[     31961,        643]
+CellTagsIndexPosition[     31918,        640]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["The Traveler's Dilemma", "Title",
+ CellChangeTimes->{{3.3903129091787815`*^9, 
+  3.390312933459781*^9}},ExpressionUUID->"a6f87682-f4f2-4aed-a226-\
+679f354fa645"],
+
+Cell["\<\
+Text from:
+http://jeremyclark.wordpress.com/2007/06/11/randomized-travelers-dilemma/
+
+In the June 2007 issue, Scientific American ran a fantastic article on the \
+Traveler\[CloseCurlyQuote]s Dilemma. The traveler\[CloseCurlyQuote]s dilemma \
+is summarized as follows, 
+
+\"Lucy and Pete, returning from a remote Pacific island, find that the \
+airline has damaged the identical antiques that each had purchased. An \
+airline manager says that he is happy to compensate them but is handicapped \
+by being clueless about the value of these strange objects. Simply asking the \
+travelers for the price is hopeless, he figures, for they will inflate it. \
+Instead he devises a more complicated scheme.He asks each of them to write \
+down the price of the antique as any dollar integer between 2 and 100 without \
+conferring together. If both write the same number, he will take that to be \
+the true price, and he will pay each of them that amount. But if they write \
+different numbers, he will assume that the lower one is the actual price and \
+that the person writing the higher number is cheating. In that case, he will \
+pay both of them the lower number along with a bonus and a penalty\[Dash]the \
+person who wrote the lower number will get $2 more as a reward for honesty \
+and the one who wrote the higher number will get $2 less as a punishment. For \
+instance, if Lucy writes 46 and Pete writes 100, Lucy will get $48 and Pete \
+will get $44.
+
+\"What numbers will Lucy and Pete write? What number would you write?\"
+
+For reasons that you can get from reading the article (or thinking hard), the \
+rational choice for Pete and Lucy is to write is 2. Of course, in practice, \
+most people don\[CloseCurlyQuote]t follow the chain of reasoning that leads \
+to this choice and instead choose a number close to 100. And so long as both \
+participants ignore the rationale, they tend to make more money. 
+
+Exactly why the rational answer, dictated by game theory, breaks down is \
+subject to interpretation. In describing how game theory is applied to \
+auctions, Tim Harford notes that \[OpenCurlyDoubleQuote]auctions require \
+\[OpenCurlyQuote]if he thinks that she thinks that I think that he thinks\
+\[CloseCurlyQuote] chains of reasoning that tend to have weak links. Those \
+links can easily break if any bidder has any reason to suspect that any other \
+bidder is irrational.\[CloseCurlyDoubleQuote]
+          
+From how real people play the traveler\[CloseCurlyQuote]s dilemma, the links \
+here tend to break down as well. Its only rational to drop your number if you \
+reasonably suspect the other player will drop hers. At the same time, you \
+want to take advantage of the chance that she won\[CloseCurlyQuote]t because \
+you both will do well if she is less rational than you (which might make her \
+more rational, as she will do better too).
+
+There are a few cognitive biases that may come into play here. The first is \
+that while you know you are rational, you are less than certain if the other \
+player is. Assuming she is not rational is risky, but it is a risk that \
+offers a potentially higher reward.In the base case (a number between 2 and \
+100, and a penalty/reward of $2), assume for simplicity that the other player \
+is either rational and will write down 2, or irrational and will write down \
+100. By writing down 2 yourself, you are certain to get $2. By writing down \
+$100, you risk getting $0 or $100. Behavioral economists have studied a \
+similar type of scenario where someone is offered the choice between, say, $2 \
+now or flipping a coin where heads will give you nothing and tails will give \
+you, say, $4.The expected value in this case is equivalent, but the average \
+human will take the sure bet. Where the study of risk aversion gets \
+interesting is when you play with the numbers and offer $5 or $6 or $10 on a \
+tails, and see how high you have to make it before people take the bet. If it \
+were an option between a certain $2, or a 50% chance at $100--I bet most of \
+you would take it. Which is perhaps why most people take the risk that the \
+other participant will act irrationally in the traveler\[CloseCurlyQuote]s \
+dilemma.
+
+Of course, the probability that they will act irrationally is not a 50-50 \
+coin flip. It is unknowable. But what we can do is calculate what the minimum \
+probability would have to be for the risk to have the same expected value as \
+the outcome, and it is 2 %.In other words, if there is at least a 2% chance \
+that the other participant will act irrationally and write down 100, then its \
+rational to write down 100 yourself. This is simplified to two cases (they \
+either write down 2 or 100) but reasoning holds even if you allow for them to \
+be semi - rational (choose a number in the 90 s, or in above the 60 s, et \
+cetera). Furthermore, all the empirical studies of the traveler\
+\[CloseCurlyQuote]s dilemma give information on just how how rational the \
+other player is likely to be\[Dash]and so its no longer a blind guess. Of \
+course, terming the strategy of writing down 100 with the word \
+\[OpenCurlyDoubleQuote]irrational\[CloseCurlyDoubleQuote] is a misnomer. True \
+irrational behavior would have no strategy at all, and such a player would \
+just write down a random number. I played the traveler\[CloseCurlyQuote]s \
+dilemma with my computer acting as a random player (and with a minor change \
+of rules: a number between 80 and 200, and a penalty of 5). This graph shows \
+how much I won (on average for one round) for every possible number I could \
+write down (80, 81, \[Ellipsis], 198, 199, 200). As you can see, against a \
+random opponent, I am best writing down a number close but just under 200.\
+\>", "Text",
+ CellChangeTimes->{{3.435806653357205*^9, 3.435806904107929*^9}, {
+  3.435807045384198*^9, 3.43580708932456*^9}, {3.435808154175091*^9, 
+  3.435808164599512*^9}},ExpressionUUID->"d2f50037-325f-4171-867c-\
+774f4032393d"],
+
+Cell[CellGroupData[{
+
+Cell["Constant Penalty", "Section",
+ CellChangeTimes->{{3.3903129091787815`*^9, 3.390312933459781*^9}, {
+  3.435807176233366*^9, 
+  3.435807179587153*^9}},ExpressionUUID->"742eae8b-6855-475d-80e0-\
+0e4108f81ea9"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Needs", "[", "\"\<PlotLegends`\>\"", "]"}]], "Input",
+ CellLabel->"In[58]:=",ExpressionUUID->"b4dd4280-6ff7-4e2f-a6a6-a428a52d3104"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "General","obspkg",
+   "\"\\!\\(\\*RowBox[{\\\"\\\\\\\"PlotLegends`\\\\\\\"\\\"}]\\) is now \
+obsolete. The legacy version being loaded may conflict with current \
+functionality. See the Compatibility Guide for updating information.\"",2,58,
+   2,19708198618786990485,"Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.88713543273281*^9},
+ CellLabel->
+  "During evaluation of \
+In[58]:=",ExpressionUUID->"bf050159-4ca0-4508-b2e3-795cde31a536"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"Parameters", ":", " ", 
+    RowBox[{"games", " ", "are", " ", "the", " ", "number", " ", "of", " ", 
+     RowBox[{"iterations", ".", " ", "The"}], " ", "graph", " ", "will", " ", 
+     "become", " ", "more", " ", "accurate", " ", "as", " ", 
+     RowBox[{"increased", ".", " ", "penalty"}], " ", "is", " ", "set", " ", 
+     "to", " ", "5"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"games", "=", "10000"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"penalty", " ", "=", " ", "5"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", "Code", " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"fa", "[", 
+     RowBox[{"x_", ",", "p_"}], "]"}], ":=", 
+    RowBox[{
+     RowBox[{"x", "[", 
+      RowBox[{"[", "1", "]"}], "]"}], "/;", 
+     RowBox[{
+      RowBox[{"x", "[", 
+       RowBox[{"[", "1", "]"}], "]"}], "\[Equal]", 
+      RowBox[{"x", "[", 
+       RowBox[{"[", "2", "]"}], "]"}]}]}]}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"fa", "[", 
+     RowBox[{"x_", ",", "p_"}], "]"}], ":=", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"x", "[", 
+       RowBox[{"[", "2", "]"}], "]"}], "-", "p"}], "/;", 
+     RowBox[{
+      RowBox[{"x", "[", 
+       RowBox[{"[", "1", "]"}], "]"}], ">", 
+      RowBox[{"x", "[", 
+       RowBox[{"[", "2", "]"}], "]"}]}]}]}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"fa", "[", 
+     RowBox[{"x_", ",", "p_"}], "]"}], ":=", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"x", "[", 
+       RowBox[{"[", "1", "]"}], "]"}], "+", "p"}], "/;", 
+     RowBox[{
+      RowBox[{"x", "[", 
+       RowBox[{"[", "1", "]"}], "]"}], "<", 
+      RowBox[{"x", "[", 
+       RowBox[{"[", "2", "]"}], "]"}]}]}]}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"g", "[", 
+     RowBox[{"c_", ",", "p_"}], "]"}], ":=", 
+    RowBox[{"N", "[", 
+     RowBox[{
+      RowBox[{"Total", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"fa", "[", 
+          RowBox[{"#1", ",", "p"}], "]"}], "&"}], "/@", 
+        RowBox[{"Transpose", "[", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"Table", "[", 
+            RowBox[{"c", ",", 
+             RowBox[{"{", "games", "}"}]}], "]"}], ",", 
+           RowBox[{"RandomInteger", "[", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{"80", ",", "200"}], "}"}], ",", "games"}], "]"}]}], 
+          "}"}], "]"}]}], "]"}], "/", "games"}], "]"}]}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"h", "[", "p_", "]"}], ":=", 
+     RowBox[{"Transpose", "[", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"Range", "[", 
+         RowBox[{"80", ",", "200"}], "]"}], ",", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"g", "[", 
+           RowBox[{"#", ",", "p"}], "]"}], "&"}], "/@", 
+         RowBox[{"Range", "[", 
+          RowBox[{"80", ",", "200"}], "]"}]}]}], "}"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"ListPlot", "[", 
+    RowBox[{
+     RowBox[{"h", "[", "penalty", "]"}], ",", 
+     RowBox[{"PlotRange", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{"60", ",", "160"}], "}"}]}], ",", 
+     RowBox[{"Filling", "\[Rule]", "Axis"}]}], "]"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]"}]}]], "Input",
+ CellChangeTimes->{{3.390312966193781*^9, 3.390312998382781*^9}, {
+   3.390313115301781*^9, 3.390313321146781*^9}, {3.390313407052781*^9, 
+   3.390313716849781*^9}, {3.3903137850797815`*^9, 3.390313945198781*^9}, {
+   3.390313994993781*^9, 3.390314073613781*^9}, {3.390314118682781*^9, 
+   3.3903142960867815`*^9}, {3.390314372151781*^9, 3.390314537065781*^9}, {
+   3.390314577440781*^9, 3.390314589472781*^9}, {3.390314646835781*^9, 
+   3.3903147180227814`*^9}, {3.390314787867781*^9, 3.3903147936197815`*^9}, {
+   3.390314877657781*^9, 3.3903149142407813`*^9}, {3.390315099006781*^9, 
+   3.3903151501297812`*^9}, {3.3903152961597815`*^9, 
+   3.3903153960537815`*^9}, {3.3903154519387813`*^9, 3.390315456321781*^9}, {
+   3.390315494116781*^9, 3.390315510370781*^9}, {3.3905664078886003`*^9, 
+   3.3905664338966*^9}, {3.3905664685486*^9, 3.3905664688066*^9}, 
+   3.3905665033076*^9, 3.3905665441896*^9, {3.3905666838236*^9, 
+   3.3905667052246*^9}, {3.3905703708006*^9, 3.3905704316096*^9}, {
+   3.3905705131306*^9, 3.3905706828026*^9}, {3.3905707329216003`*^9, 
+   3.3905707774356003`*^9}, {3.3905710017906*^9, 3.3905710421116*^9}, {
+   3.3905712484646*^9, 3.3905712487576*^9}, 3.3905712900896*^9, 
+   3.3905713417876*^9, {3.3905714532595997`*^9, 3.3905714702936*^9}, {
+   3.3905715537396*^9, 3.3905715627226*^9}, {3.3905716085326*^9, 
+   3.3905716119306*^9}, {3.3905716568576*^9, 3.3905716588166*^9}, 
+   3.3905718137466*^9, {3.3905748785386*^9, 3.3905749084926*^9}, {
+   3.3905750913866*^9, 3.3905751080615997`*^9}, 3.3905788130576*^9, {
+   3.435806936289713*^9, 3.4358069473359537`*^9}, {3.4358071001459846`*^9, 
+   3.435807160856965*^9}, {3.4358072180236273`*^9, 3.435807320379958*^9}, {
+   3.435807363060542*^9, 3.435807387791708*^9}},
+ CellLabel->"In[59]:=",ExpressionUUID->"eeec7425-6a0d-45bd-93af-e88c3acec6bf"],
+
+Cell[BoxData[
+ GraphicsBox[{{}, GraphicsComplexBox[CompressedData["
+1:eJzt1/tTVGUcx/EDonnNMoe8A17QGVJHyxumfcjGvCSOuiy77AKHvSsYmjKQ
+qHMKEa94y3Embxt0IQbRyEStyUfSDJ28MBLjqHhQElA0RaWA1M62z9PM+f4D
+/QK/7LyW/Z732bO755knzJY63xkoSVJygCT5Hv1/Bjy7nNEQPiUG/xIGjE0f
+GRaSwa0YsPj0s5LMEm5mQJcNIfb7d7ilGBSM+3VydJiRz8egZNT7+QFWbiUG
+7sq6RRHbuVkMpn5oKhhXzi0ZsTGlru3rgFg+b0TpJak6cAq3YkRu2tL+PVK4
+mRFpO/oEGfdxS7Houef1vMNVYj4W1Us35NZ2NfH5WLz187Xv1rzJzWIx+Glz
+mrqEWzLBd3rN+dww4SXTpMO/VIh5E6YfefT0cmcznzehdfWiH5ZP4JbMWPXW
+uITjTm6YYXl7av2VrdyKGQdarYtPl4l5M3Y937q6rVnMx2Go74mQOD4fh5sN
+O0u6z+NW4pD8afqevHRuFofgRXMe5e7nliyYNuDuzfEVYt6CHZEBc9Y8EfMW
+zL4T9MbL4RY+b8HvFwdfbYnmlqxI6dLidedww4q6gV/Vz8jjVqyIvza9Q8ZP
+Yt6KGTUrehe/YOXz8Zh/dFD23b7ciMdfZY5CGdxKPNJ/3N9v9FJuFo/TW8ak
+j/xMzCfgcYpxVXGZmE/A9aGdPtp5Q8wnIHvlxW/NXeL5fAJ239ZO8DVuKRHa
+1ViwfCI3EnHm+NHNnTzcSiJaejaUHswS84n+7+chMS9jtnntxN9quENlBNVt
+GnFPGDIm35i7edegBL9lGZ7BKRkr5nArMjYcqmnYaeT2yghuO3e/PJWbyfhA
++zo25XCrMhpHfz+8Zym3lATDrS92nyriDk3Ci3MPfuJs5EYS4n0/wD9EPwnn
+11VUq68m8n4Soi9tsz6bwO1N8h9/GjdLQvbdeUcHreJWk1B/pajVup5bsqF7
+YERO8AHuUBuKNl71SPncsGFL2ZMR1nPcsg0dMroNHREk874N0rbVbZGNom/D
+50umdK3qwf/PbCiIPTv21Cvcqg3nCy9UGsO5JTu21DaFVAzkDrXDGhr10B7J
+DTt6qCO3eqdyy3Zov7aZ3YUVO8IXdMzfLnN77Rg+pnPRAJPo25Ec0bzrerLo
+2zF5iXYFU0Tf4b+/uUTf4b9+qaLvQD9mCY3KFH0HevtuKOtE3+H//HNF34GT
+k4bMylwv+g70XVbVq2mv6DugnX1gxH7Rd/qPd0j0nVhbbjhZcFj0nZiVmTX6
+vVOi74Tv7UaeEH0n+vsukHi914nCj+fN3Fsm+k48fDzLvPa86DvRbfqwtEAm
++i40RV1wVVaJvgupvbLY2VLRd/nvZzdF3+W//pdF34VN2tcltUb0Xehd/G7N
+inrRd6GP7wOqFX0Xjm3u9CD4sei7MXCi+52FdaLvxnhtObkkjgc3vuyqnXCT
+6LuRP+TY3zmq6LtxZvaE9VGtou+G5ZsTjfsaRd+N1AfZ5YY/Rd+NUc/Dnjbf
+En2P/1G8PtSDjr4bVKXoe7AnTwveE32P//daLfoe3C4eVpt1R/Q9WObZdm9l
+i+jz14vzVT04ska7oV0V/YVwFsqG+eL9a+ux/zGa94kVYkYsxegNYoWYEUtG
+vUGsEDNiKVZvECvEjFgy6Q1ihZgRS2a9QawQM2IpTm8QK8SMWLLoDWKFmBFL
+Vr1BrBAzYilebxArxIxYStAbxAoxI5YS9QaxQsyIJVnvUGIQy8QKsZeYEavE
+2nqs7xODWCZWiL3EjFgl1tZjfZ8YxDKxQuwlZsQqsbYe6/vEIJaJFWIvMSNW
+ibX1WN8nBrFMrBB7iRmxSqytx/o+MYhlYoXYS8yIVWJtPdb3iUEsEyvEXmJG
+rBJr67G+TwximVgh9hIzYpVYrMf/9YlBLBMrxF5iRqwSa+ux3u374/b9cfv+
+uH1/3L4/9vfb98ft++P/Z3/8D3JOOL4=
+    "], {{{}, {}, {}, {}, 
+      {RGBColor[0.368417, 0.506779, 0.709798], Opacity[0.3], 
+       LineBox[{122, 1}], LineBox[{123, 2}], LineBox[{124, 3}], 
+       LineBox[{125, 4}], LineBox[{126, 5}], LineBox[{127, 6}], 
+       LineBox[{128, 7}], LineBox[{129, 8}], LineBox[{130, 9}], 
+       LineBox[{131, 10}], LineBox[{132, 11}], LineBox[{133, 12}], 
+       LineBox[{134, 13}], LineBox[{135, 14}], LineBox[{136, 15}], 
+       LineBox[{137, 16}], LineBox[{138, 17}], LineBox[{139, 18}], 
+       LineBox[{140, 19}], LineBox[{141, 20}], LineBox[{142, 21}], 
+       LineBox[{143, 22}], LineBox[{144, 23}], LineBox[{145, 24}], 
+       LineBox[{146, 25}], LineBox[{147, 26}], LineBox[{148, 27}], 
+       LineBox[{149, 28}], LineBox[{150, 29}], LineBox[{151, 30}], 
+       LineBox[{152, 31}], LineBox[{153, 32}], LineBox[{154, 33}], 
+       LineBox[{155, 34}], LineBox[{156, 35}], LineBox[{157, 36}], 
+       LineBox[{158, 37}], LineBox[{159, 38}], LineBox[{160, 39}], 
+       LineBox[{161, 40}], LineBox[{162, 41}], LineBox[{163, 42}], 
+       LineBox[{164, 43}], LineBox[{165, 44}], LineBox[{166, 45}], 
+       LineBox[{167, 46}], LineBox[{168, 47}], LineBox[{169, 48}], 
+       LineBox[{170, 49}], LineBox[{171, 50}], LineBox[{172, 51}], 
+       LineBox[{173, 52}], LineBox[{174, 53}], LineBox[{175, 54}], 
+       LineBox[{176, 55}], LineBox[{177, 56}], LineBox[{178, 57}], 
+       LineBox[{179, 58}], LineBox[{180, 59}], LineBox[{181, 60}], 
+       LineBox[{182, 61}], LineBox[{183, 62}], LineBox[{184, 63}], 
+       LineBox[{185, 64}], LineBox[{186, 65}], LineBox[{187, 66}], 
+       LineBox[{188, 67}], LineBox[{189, 68}], LineBox[{190, 69}], 
+       LineBox[{191, 70}], LineBox[{192, 71}], LineBox[{193, 72}], 
+       LineBox[{194, 73}], LineBox[{195, 74}], LineBox[{196, 75}], 
+       LineBox[{197, 76}], LineBox[{198, 77}], LineBox[{199, 78}], 
+       LineBox[{200, 79}], LineBox[{201, 80}], LineBox[{202, 81}], 
+       LineBox[{203, 82}], LineBox[{204, 83}], LineBox[{205, 84}], 
+       LineBox[{206, 85}], LineBox[{207, 86}], LineBox[{208, 87}], 
+       LineBox[{209, 88}], LineBox[{210, 89}], LineBox[{211, 90}], 
+       LineBox[{212, 91}], LineBox[{213, 92}], LineBox[{214, 93}], 
+       LineBox[{215, 94}], LineBox[{216, 95}], LineBox[{217, 96}], 
+       LineBox[{218, 97}], LineBox[{219, 98}], LineBox[{220, 99}], 
+       LineBox[{221, 100}], LineBox[{222, 101}], LineBox[{223, 102}], 
+       LineBox[{224, 103}], LineBox[{225, 104}], LineBox[{226, 105}], 
+       LineBox[{227, 106}], LineBox[{228, 107}], LineBox[{229, 108}], 
+       LineBox[{230, 109}], LineBox[{231, 110}], LineBox[{232, 111}], 
+       LineBox[{233, 112}], LineBox[{234, 113}], LineBox[{235, 114}], 
+       LineBox[{236, 115}], LineBox[{237, 116}], LineBox[{238, 117}], 
+       LineBox[{239, 118}], LineBox[{240, 119}], LineBox[{241, 120}], 
+       LineBox[{242, 121}]}}, 
+     {RGBColor[0.368417, 0.506779, 0.709798], PointSize[0.009166666666666668],
+       AbsoluteThickness[1.6], PointBox[CompressedData["
+1:eJwNy8NWBAAAAMDdbNu2bds2N9d7de67s5vDHKc09LB2HwwEAo888cwLr7zx
+zgeffPHND7/8EZCDhBFOBJFEEU0MscQRTwKJJJFMCqmkkU4GmWSRTQ655JFP
+AYUUUUwJpZRRTgWVVFFNDbXUUU8DjTTRTAuttNFOB5100U0PvfTRzwCDDDHM
+CKOMMc4Ek0wxzQyzzDHPAossscwKq6yxzgabbLHNDrvssc8BhxxxzAmnhDjj
+nAsuueKaG2654x8U6SXQ
+       "]]}, {
+      {RGBColor[0.368417, 0.506779, 0.709798], PointSize[
+       0.009166666666666668], AbsoluteThickness[1.6]}, {}}, {
+      {RGBColor[0.368417, 0.506779, 0.709798], PointSize[
+       0.009166666666666668], AbsoluteThickness[1.6]}, {}}}], {{}, {}}},
+  AspectRatio->NCache[GoldenRatio^(-1), 0.6180339887498948],
+  Axes->{True, True},
+  AxesLabel->{None, None},
+  AxesOrigin->{77.50000000000001, 60.},
+  DisplayFunction->Identity,
+  Frame->{{False, False}, {False, False}},
+  FrameLabel->{{None, None}, {None, None}},
+  FrameTicks->{{Automatic, Automatic}, {Automatic, Automatic}},
+  GridLines->{None, None},
+  GridLinesStyle->Directive[
+    GrayLevel[0.5, 0.4]],
+  Method->{
+   "OptimizePlotMarkers" -> True, 
+    "CoordinatesToolOptions" -> {"DisplayFunction" -> ({
+        (Identity[#]& )[
+         Part[#, 1]], 
+        (Identity[#]& )[
+         Part[#, 2]]}& ), "CopiedValueFunction" -> ({
+        (Identity[#]& )[
+         Part[#, 1]], 
+        (Identity[#]& )[
+         Part[#, 2]]}& )}},
+  PlotRange->{{77.50000000000001, 200.}, {60, 160}},
+  PlotRangeClipping->True,
+  PlotRangePadding->{{
+     Scaled[0.02], 
+     Scaled[0.02]}, {0, 0}},
+  Ticks->{Automatic, Automatic}]], "Output",
+ CellChangeTimes->{
+  3.3903129989517813`*^9, {3.3903131156787815`*^9, 3.390313164358781*^9}, {
+   3.3903132205047812`*^9, 3.390313259743781*^9}, 3.390313484771781*^9, {
+   3.390313560979781*^9, 3.390313611907781*^9}, {3.3903136447187815`*^9, 
+   3.3903137012797813`*^9}, {3.390313816710781*^9, 3.390313890360781*^9}, {
+   3.3903139206227813`*^9, 3.390313945953781*^9}, {3.390314044943781*^9, 
+   3.390314074632781*^9}, {3.390314123667781*^9, 3.3903141745867815`*^9}, {
+   3.3903142509547815`*^9, 3.390314307394781*^9}, {3.390314417144781*^9, 
+   3.390314553085781*^9}, 3.3903146805697813`*^9, {3.390314711854781*^9, 
+   3.3903147336617813`*^9}, 3.390314809473781*^9, {3.3903148528107815`*^9, 
+   3.3903149071407814`*^9}, {3.390315075035781*^9, 3.390315150827781*^9}, 
+   3.390315298682781*^9, {3.3903153395367813`*^9, 3.390315397743781*^9}, 
+   3.3903154586887813`*^9, {3.390315497314781*^9, 3.390315513200781*^9}, {
+   3.3905664271996*^9, 3.3905664528266*^9}, 3.3905664876826*^9, 
+   3.3905665223266*^9, 3.3905665631596003`*^9, 3.3905704055976*^9, 
+   3.3905704520216*^9, {3.3905705366636*^9, 3.3905706842925997`*^9}, {
+   3.3905707344456*^9, 3.3905707855376*^9}, 3.3905710504936*^9, {
+   3.3905711110586*^9, 3.3905711335936003`*^9}, 3.3905712563406*^9, 
+   3.3905713613626003`*^9, 3.3905714398775997`*^9, 3.3905714899076*^9, 
+   3.3905715995025997`*^9, 3.3905716994816*^9, 3.3905720504026003`*^9, 
+   3.3905753240536003`*^9, 3.3905792136616*^9, 3.4358069501565857`*^9, {
+   3.435807221323082*^9, 3.435807255216057*^9}, {3.43580730500881*^9, 
+   3.4358073370367823`*^9}, 3.887135448299593*^9},
+ CellLabel->"Out[66]=",ExpressionUUID->"ffacef83-372b-44f5-a9c3-409312b38101"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Variable Penalties", "Section",
+ CellChangeTimes->{{3.435807168070477*^9, 
+  3.43580719995223*^9}},ExpressionUUID->"18f0a398-7b88-4d86-bb43-\
+63ee2288cc2f"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ListPlot", "[", 
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{"h", "[", "5", "]"}], ",", 
+    RowBox[{"h", "[", "20", "]"}], ",", 
+    RowBox[{"h", "[", "40", "]"}], ",", 
+    RowBox[{"h", "[", "80", "]"}]}], "}"}], "]"}]], "Input",
+ CellLabel->"In[67]:=",ExpressionUUID->"d540b405-8fb8-48d6-bcc6-75fe807763c5"],
+
+Cell[BoxData[
+ GraphicsBox[{{}, {{
+     {RGBColor[0.368417, 0.506779, 0.709798], PointSize[0.007333333333333334],
+       AbsoluteThickness[1.6], PointBox[CompressedData["
+1:eJw1lQtQVGUUx6/K+AhnYBINNQOBnMzMNCkN0b8vFG1EHR7LPu/d3bt7MQwl
+IlDANUsdHyWmWYm5mg6iCJrkA0PXMVFGfGAKIagYkJESSjaKD+hu95w7s3Pn
+Nzv/+/u+c8/57lBryny5uyAImerPe9euWNzPL5/9bmQc/kfEoj6qR4ZvBrEr
+Fss3T12bXEzsiUXDyA3uxy3EQhw2X+2jhITFUz4OVSF1HTl6YlccltVGZuo2
+EXvi8KhJ2lF9jliIhz3iVsz6HgmUj0fOumMf9AkndsVr61tI7IlH/3Wz/vLJ
+IxYSMD96m2tYNecTMM45LSmlr47yCXi+6mFdzWRiTwIuVKrXImJBh/L6nz7L
+chNDh5jiTfLqGs7r8E/QlRRLF+d1mH2uV+TW8ETKJyL78qHEfyViJKIpYEhF
+85fErkSM/HFbW345sScRL9T8sCiynfN6lDWqgYF6yuuh9xZkOrFLjzVfNLUH
+pRN79GiffMlxLZ9YMCC1w6/lyC3OG7D303nR23wMlDcg6PO7846OIfYY8Kb6
++kbriQUjRqwaUHtxFTGM8OKjfZw34q3XC/pdruS8EUlCynKfB5w3weqvG18S
+ZqS8CaGzlq4YNY3YZYKYHvPKgA+JPSbUjG0bN30FsWBG6/cT3rh6mPNmJBgO
+nrzXznkz1ibfeVrQzUR5M3yjXv24ewixYIFhysQ/a0EMCzJ8w17LEYldFpRe
+X/Nc3sp5CyrST2wfdIjzIi5EzKnKrScOFvHHpF23Tjzh54m4PjhLGtPfrLEo
+YnTvwpf1wcQuEWLz5ZC6aGK3iN1lp14a9gmxR0Q/6fSvI7KJG0Rt//nEgoRv
+j3+9we8KcbCExt1bfwm+RwxJ66e77Je0/g2wkF9C3s7QY88iiN0SqnKNnVOj
+iD2S1r8W4gYJB1KV3NZviAUrGt8Z5DGUEAdb4W1/WwExrJiglsd4kVi0Qu2+
+Owsesd+q9V8X+604tLT9wFxfkfxWWIaf9z8bQNxgRVvF6Sn7Q4kFGxZZel0c
+GEQcbEP2pHBz6VBi2BCqHicLZhKLNgR6D5z3iV02mDqnPmmdQey2Yf8T48Iz
+c9lvw8bzy2aelNlvg3VH9di2NPbboXbXgyuZ7Ldr51c6++2YmKnbE87/i3bk
+Z54d/t5K9tuR25o1KXwj++0oOmxdVruF/Xatv9zstyM2LWxLVyH7ZW2e97Ff
+1taznf2y1v8H2S+j0qSeQGfYLyNniHricd4tI+7Unl1zytkvY/CoG2E9K9gv
+a/UtY78DSkhyxpJr7HfAXBrdt/sl9jugTtt3vW+w34F+3gW3sd+hzd9v7Hdg
+wc9pXwUyexzYn3Rz8Zq/2e/Aw+T47KLf2e/Es8CPal6sZr9Tq2cT+50YP31G
+akcj+51YbTPVR9Wy34lOWf2idJPI74Rf3ts7S1rZ70SGd0Aest+Jgaqunesh
+KDh+dH3P+zfZr8C/5Uhxj6fsV7T55eeJCpxq+494zH4Fp+17xdjrvH9Fm/9m
+9isIKJpxewnvp0GB4t3gbfYnYXHh2jpFrcd/5J5JAA==
+       "]]}, 
+     {RGBColor[0.880722, 0.611041, 0.142051], PointSize[0.007333333333333334],
+       AbsoluteThickness[1.6], PointBox[CompressedData["
+1:eJw1lQtQVGUUx1ckyBy1BHFAnqaOYkABCaLYX0VQlOEhLMs+774Xh1doPtCJ
+BWo0BzQTyjFDkCgoR54GaNqKIS+jkRSFHiLpUDwCJMsBabrr/c7O7Oz85s7/
++9179pxzvTTpcXobkUh0gP9af4VPPBrd3x+OfSrBc0Q85Mebn6x0TRLYHA8X
+i8xzYxRjSzzGnbbGPEthLErAbzZzjnqUMUYCNm34o/d8B+UTUHFje9AHE5RP
+gL31AEcpy4vB7Y12d/JnDDFuKra32asZm8VoXRXyUWc2Y4sYMQWfpC28TPlE
+hE2NDlvaKZ+ICS1/wkPKJ6K0J3As2E3G8okocfH7ddkGxiIJ+q/OPxOgZAwJ
+vK26DMZmCZoK7MadKigvQXWm6cToTconCffbS/kk5MVu+8y8UM7ySXC2Fc/3
+8WVsScLlRv5AYpEUfeen5KnJjCHFvZzd4YXvUl6Kza7DA2tyKS9FqbFuaHcN
+5WXIjxyyDbxFeRkePfboTh+kvAzZ0yEZXSOUl+G9edFVhV4KlpejI/5axefe
+jCHHuoyuI92bGJvl+PrHO+KRPMYWOZ409R2dOUF5BfinD/20kvIKuDvtipq8
+RHkFXrpblhHaQ3kFZg7//fPdHyivxFjwlojMCcor0aviG8JGyfJKND3jAwsY
+W5SwlrN2FmORCuHL37E5LWcMFXysBVNSXoX70XzDhFBeJdTjEOU5vLJm/ZW4
+jxl7cmjfe/WsSwOdx6Fq+cO84nLGHIeaB38W1TbS+Ryynjco4xIORbfnmJa2
+kY9DeOE/dqoRxv0c3KS6dffHyK8W6mOnYn41cmxbjr/hwBhq9LSkBppXM+bU
+CPi+xjdtMWOzGqpVnS+3pjEuUWNev8+HJRLGFjXsu5xj+yIY96vRoMnuDU1i
+LNJgwdyLXxzwI78GV353dGt/m/wa1LfxBckkvwY1340Urz9Dfg2iFvEdmEJ+
+DbLKX9vsepj8/PXJYzv3HCK/Bi2e/ASVkl+Lt95UXtqWT34tIg/m+e24QH4t
+tj7IcrzwJfm16PDnC3CO/Frw22ZK3kR+Lc5t+WZypp78WiS87l3pcI/8WmE+
+6sivQ61vWtmsavLrYK86tWNRI/l1kKzlK3CD/Doki9JzbFPJrxP64xr5deD/
+3eiCfeTX4WLQ02Yd5ft1sJa79Rb59WhevGLnC2fJrxf6yUh+vTBfVC9ODzio
+r/9E1816+O/z8fKg+pbocfrFJcXKIvLrcbIyl99I5NcL+1NLfgNSB6crJ46R
+34Dbq/XOA3LyG/DVRHeURkd+A7J3fbvnJF03G5AWaG5ACPkNmO78q/26kvwG
+BFlfIF7kNyCOX48r3MlvhFuwMSx5mubPiOrZg/krR2n+jEJ//kvzZ0TE7P1z
+l9E8mY1CPz+i+TMK75Mhmj+jMM91NH9GWMdhCc2nyASN9QVRT34T+LtJHy8i
+vwkt/9UefEz7gjNhxLL21cho8pvQWMXfcAz5TbjDj39KGPlNOKJV/BIeQH4T
+NuYOtJ6ifSZKxtKU/Vnl/B78H7U6LQc=
+       "]]}, 
+     {RGBColor[0.560181, 0.691569, 0.194885], PointSize[0.007333333333333334],
+       AbsoluteThickness[1.6], PointBox[CompressedData["
+1:eJw1lQtUU3UcxychWoKRh3wQwShRfBD5CEk0voqZZoji2Jvt7u7ebehBRFGi
+QzRDMUvwDclBnY9KFBQfnEgJFqRmpAmeVMxkIankkziFaGX3tv9v5+zsfPbf
+537/r99v4XxGsuijUChypLf86X2pcFJZtdTRlYr/ESqk33xc3uVn8rJThYjl
+PqX9hzB2q6AeGHVk+8uMFSm4OvOpdwfEMkYKxm0bPXTrPPJTUHzEP7MinvwU
+bDL+m/Aok3w18ufP3u58j3w1TMdn+/uUkK9G56xXnoSXk6/GSNfaql93ka/B
+lYpHxvST5GvQ3rn1iH8n+Rr83Ju3sPY8+Rp0Fy3IGv6EfC3EYe3aId3kaxHg
+idrgCjQzX4sDP/6kvtNDvhaHIjryd/Rl4wodXMHRvwwfzRg6vKgX4trmkK/D
+5ZXLZm6hcbcOVy9JX4B8PT75R+zpyCRfD8Ph+js7ZpCvx+32mGC3lXw9/H3G
+rBlsId+AHj/zp++kk2/A8Mi8dV/tJN+ANEXGSt+N5BuwOvf8UV0i+Ub0SVwV
+kHSUfCPKJuw+NqmKfCMCta8f+66IfCMSKtOuZRaTnwpuRVLoYBpHKiatncb9
+toH8VDiO/r6supr8VEhPW1G3iHwTEuUDySLfhOdipnydfJB8E2rwYfvpVeSb
+kF23Mzi6nHwzxmdHhYdx5JvhNiindeWTb8bp4zWFfmXkmxEnL/gQ+RzWd/wR
+1rKHsZLDHF1B7MWt9DzOO78ljDkOtxaO+auE9tPJQV7u+VLGLg79K0L0Qhjl
+cUg6tEX8yM7Yw2E/p0oeqaJ8C/ru2TS5TxrlW9Ad1pJhpt/DgnmFJYsHJVC+
+BU2B0orCKd+C5pekG55M+RbsMI1qCjRQvgW1fQcFxc+kfAumv3GrtSKU8nk4
+Nt7Nje9l91vJo0B/ofZ6EOXzMK5v+DNyIuXzWFSaXbb7BNUXj1126YCpHl08
+7p9pnF7ZSvXCo3fcjYMRVYw9PC4k8oHas1R/Vm9/+YLyrd77k0X1aIU8vdc+
+ZsxZIZfHlCWUb0VQ/Kmr1VrKt0IpbV+/YMq3Ym3LNc+AHtbfPFacGzb/ygsK
+yhdQGHk3oO4hG1cKqJ70sEEgHwJizsbNbT7LxjkB2u/Hf3v4HGOngDffWtr7
+7DbGLgHXpXI1aBm7BXjqBpZNyKN8AZ+NTQi5rWasEJE59ZlLe/42snzRez5L
+qR+LeNx070zjNTbOiQjJtYxPecDYKaJRkG5UA2OXCI3cQIoZu0Xveo8x9oiw
+z0jLeLCcscKG7c4RDQXRlG/DrosT78emM4YNOZ0jxvUfS/k2tE7N0e57nvJt
+iGtLKiy5Z2D5NiwoDi9a3srYbcPNddIGn2PssXn3ayVjhd3bDzYzVtpxI35v
+W91kxrCjJnT17fmvMubsGCUXgC9jpx3f7Ns7F/V6lm+HuZ+04gbGbjvk6S3+
+nLHHDj+pHE5FMlY4sPNA5WXz24yVDuzvaknkVYzhgPz38OXTjDkHfvhgVv37
+zTqW78D9WGlF5YxdDmjuRJ8YuYax24HarM1DfXnGHgcM8gGPZaxIw0K5wYTo
+8B9drSxs
+       "]]}, 
+     {RGBColor[0.922526, 0.385626, 0.209179], PointSize[0.007333333333333334],
+       AbsoluteThickness[1.6], PointBox[CompressedData["
+1:eJw11QtQVGUYBuCNSHHyytUAZSmVhBB1RCkqX0TzMiiCe2cvZ++rg4NOIKmR
+ixdQInQGEa2UhdI0UQS5qJAedRRB0YTR1BEErAzB0hBUyOxs+/07s7PzzNn3
+vGfP+b9/gw0piWY3kUi0Vng7P10vCR4MHnrS/MiI/wkJSipnPT/XTrZLkHAn
+4HN9I5mXoGOd99H5TWSRFIPqlRf+PcHyUkz//ejEX0+yvBTrha93sOO8FMY/
+VXM+/pblZehU+NVcz2J5GYY+9l2wNI/lZVg45VXwy1yWl0E42zrvVSwvx0P3
+GWNmKlhejvIzPfs+XMTyckTfi/+qMJTl5RjuFpbtG8vyChQ1/XjtxiSWV+D9
+yktrTk9keQXCYwO7Oz1YXuE6nxvLK/F4S4Pk7C0D5ZXw9J598e51sl2JuQOP
+uvl6Mq/Ebd2a+PEVZJEKF1fOsNccYHkVsn1vX31WxPIqZPx8XNlXzPIqfPSN
+tOjwBpZPQs11UZtbGssn4a5NlJK5gOWTINy9/rRQlk/C3jH7fzobzPJqxM3a
+FsOFs7waGUerDRte6CmvhjjmifHKIJlXIx5e+vMtZJEG81//7M0JjWRo8PUe
+4VXM8hq8GNVVU1bG8hpUKvtO3slheS16g5pTdEUsr0XxzRl/RaWzvBb5Y91l
+I+exvBYhjm3HOl5xlNdBuNtVm/vJ0OHas2X39wexvA6Z7he2TwtmeR26O2f6
+81Usz8HfucCPk8UcslQtdfdvsfNxGPhiRV3qD2SOc13PJrKdQ/Sqq1ubD5Ad
+HEoDVaZoDZnnEDLNozRwKrmdw3ev1b3hOYH161He0VVQEcj69YjZ2Fm/u15H
+/Xo4x2/6HjKnx9/Niw2jk8l2PSart5/rY3boUTKvuvelB5nXwzluf5RrqV+P
+Gw9WhPXXkkUG/DP20188d5HFBtyU9UTUvkOGAfFlO81b5WTOAHmSMGFtGuo3
+IDjoabJMQ3YYIKRDRg0l8wakVvkMXh5QU78BLcLlKxrIIiNSPDfxjZFksRGT
+L4+uP1VKhhHCdGBjZxL1G6GXJIY4Wsl2I6zOH1RNdhhd86Ui80YkLtxrn3RH
+Rf3kt+m4yISehBPjt+TTcbEJbsLj8Y4mw4Q1qwNGtEvJnMk1H01K6jdBOjX0
+kNcxssOExb15y1J3kHkThNWXHj6C3G5CszCuw64qqN+McVHWucsLyWKza784
+QoYZU3Y4nk/LIXNmyEaGV+xtkVO/GQ2/zf7+3gdkhxnnW8LMb4WSeTMWrd8U
+EedGbjeja5KwIEtl1G/BsIB92smFZLEFncJyHG4mw4L000X+ES+l1G+BrOjw
+kVu1ZLsFC85kjItaT3ZY4FyO775H5i1QOce9SkL9Fuh2x/nkVpNFVjgf94kn
+y6jfisWbR8SXPSXDitYJQzILvMicFWsVByObhpLtVmQWxH6Z3J1I/VZ8srN/
+iI4n81Zc2l27a4cfud0KD+cG2ptA/TasaFudk1dJFttc+2UUGTb45C566B5H
+5mzImB2pPXVyKfXbkCVs/wdXkR021/PxI/M25AQJ/3gl8dRvc837lSXUvxz9
+ha352WlL8B9VlThK
+       "]]}}, {
+     {RGBColor[0.368417, 0.506779, 0.709798], PointSize[0.007333333333333334],
+       AbsoluteThickness[1.6]}, 
+     {RGBColor[0.880722, 0.611041, 0.142051], PointSize[0.007333333333333334],
+       AbsoluteThickness[1.6]}, 
+     {RGBColor[0.560181, 0.691569, 0.194885], PointSize[0.007333333333333334],
+       AbsoluteThickness[1.6]}, 
+     {RGBColor[0.922526, 0.385626, 0.209179], PointSize[0.007333333333333334],
+       AbsoluteThickness[
+      1.6]}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}}, {
+     {RGBColor[0.368417, 0.506779, 0.709798], PointSize[0.007333333333333334],
+       AbsoluteThickness[1.6]}, 
+     {RGBColor[0.880722, 0.611041, 0.142051], PointSize[0.007333333333333334],
+       AbsoluteThickness[1.6]}, 
+     {RGBColor[0.560181, 0.691569, 0.194885], PointSize[0.007333333333333334],
+       AbsoluteThickness[1.6]}, 
+     {RGBColor[0.922526, 0.385626, 0.209179], PointSize[0.007333333333333334],
+       AbsoluteThickness[
+      1.6]}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}}}, {{}, {}}},
+  AspectRatio->NCache[GoldenRatio^(-1), 0.6180339887498948],
+  Axes->{True, True},
+  AxesLabel->{None, None},
+  AxesOrigin->{77.50000000000001, 0},
+  DisplayFunction->Identity,
+  Frame->{{False, False}, {False, False}},
+  FrameLabel->{{None, None}, {None, None}},
+  FrameTicks->{{Automatic, Automatic}, {Automatic, Automatic}},
+  GridLines->{None, None},
+  GridLinesStyle->Directive[
+    GrayLevel[0.5, 0.4]],
+  Method->{
+   "OptimizePlotMarkers" -> True, 
+    "CoordinatesToolOptions" -> {"DisplayFunction" -> ({
+        (Identity[#]& )[
+         Part[#, 1]], 
+        (Identity[#]& )[
+         Part[#, 2]]}& ), "CopiedValueFunction" -> ({
+        (Identity[#]& )[
+         Part[#, 1]], 
+        (Identity[#]& )[
+         Part[#, 2]]}& )}},
+  PlotRange->{{77.50000000000001, 200.}, {0, 159.432}},
+  PlotRangeClipping->True,
+  PlotRangePadding->{{
+     Scaled[0.02], 
+     Scaled[0.02]}, {
+     Scaled[0.02], 
+     Scaled[0.05]}},
+  Ticks->{Automatic, Automatic}]], "Output",
+ CellChangeTimes->{3.435807460260878*^9, 3.88713551749647*^9},
+ CellLabel->"Out[67]=",ExpressionUUID->"939a9842-65f4-40a6-a8cf-03e93d1a3a82"]
+}, Open  ]],
+
+Cell["\<\
+Blue is the same graph as the first one (a penalty of 5), purple is 20, gold \
+is forty, and green is 80. As you can see, the optimal number to write down \
+decreases as the penalty increases.When the penalty reaches a maximum of 80, \
+you are not only best playing the safe number\[Dash]you actually make more \
+than in any other configuration. In real-life, players are likely to be \
+somewhere between perfectly rational and random. But the two general \
+behaviors in the simplified examples (risking that the other player will act \
+irrationally, and decreasing your number as the penalty increases) are \
+behaviors exhibited in real-world user studies.\
+\>", "Text",
+ CellChangeTimes->{{3.435807010185967*^9, 
+  3.4358070327825212`*^9}},ExpressionUUID->"7dc88a8e-74a8-45f9-b079-\
+dee80bfe5c90"]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{640, 750},
+WindowMargins->{{36, Automatic}, {22, Automatic}},
+PrivateNotebookOptions->{"VersionedStylesheet"->{"Default.nb"[8.] -> False}},
+FrontEndVersion->"12.0 for Mac OS X x86 (64-bit) (April 8, 2019)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[567, 22, 167, 3, 98, "Title",ExpressionUUID->"a6f87682-f4f2-4aed-a226-679f354fa645"],
+Cell[737, 27, 5953, 91, 1714, "Text",ExpressionUUID->"d2f50037-325f-4171-867c-774f4032393d"],
+Cell[CellGroupData[{
+Cell[6715, 122, 212, 4, 67, "Section",ExpressionUUID->"742eae8b-6855-475d-80e0-0e4108f81ea9"],
+Cell[CellGroupData[{
+Cell[6952, 130, 156, 2, 30, "Input",ExpressionUUID->"b4dd4280-6ff7-4e2f-a6a6-a428a52d3104"],
+Cell[7111, 134, 495, 11, 42, "Message",ExpressionUUID->"bf050159-4ca0-4508-b2e3-795cde31a536"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7643, 150, 5172, 122, 451, "Input",ExpressionUUID->"eeec7425-6a0d-45bd-93af-e88c3acec6bf"],
+Cell[12818, 274, 8191, 141, 253, "Output",ExpressionUUID->"ffacef83-372b-44f5-a9c3-409312b38101"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[21058, 421, 162, 3, 67, "Section",ExpressionUUID->"18f0a398-7b88-4d86-bb43-63ee2288cc2f"],
+Cell[CellGroupData[{
+Cell[21245, 428, 330, 8, 30, "Input",ExpressionUUID->"d540b405-8fb8-48d6-bcc6-75fe807763c5"],
+Cell[21578, 438, 9116, 169, 243, "Output",ExpressionUUID->"939a9842-65f4-40a6-a8cf-03e93d1a3a82"]
+}, Open  ]],
+Cell[30709, 610, 809, 13, 196, "Text",ExpressionUUID->"7dc88a8e-74a8-45f9-b079-dee80bfe5c90"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+

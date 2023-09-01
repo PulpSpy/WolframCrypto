@@ -1,0 +1,332 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 7.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[     10446,        323]
+NotebookOptionsPosition[      9011,        269]
+NotebookOutlinePosition[      9352,        284]
+CellTagsIndexPosition[      9309,        281]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"SetDirectory", "[", 
+   RowBox[{"NotebookDirectory", "[", "]"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Get", "[", "\"\<StockEntropy.m\>\"", "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.478880004977578*^9, 3.478880005931155*^9}}],
+
+Cell[BoxData["\<\"Library for stock price entropy loaded (Jeremy Clark, 2010, \
+BSD License).\"\>"], "Print",
+ CellChangeTimes->{3.47888000637346*^9, 3.4789573288627567`*^9, 
+  3.478958405151908*^9}]
+}, Open  ]],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"trials", "=", "100000"}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Params", "=", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"14.5", ",", "48.018", ",", "129.37"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{
+       "0.0000317967937331996", ",", "0.0019536327207090665", ",", 
+        "0.005124442644398763"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{
+       "0.008112776944746387", ",", "0.018683859314191243", ",", 
+        "0.046848576196704385"}], "}"}]}], "}"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"getStock", "[", 
+     RowBox[{"param_", ",", "tweak_"}], "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"i", ",", "j"}], "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"i", "=", 
+        RowBox[{"Switch", "[", 
+         RowBox[{
+         "param", ",", "\"\<drift\>\"", ",", "1", ",", "\"\<diffusion\>\"", 
+          ",", "2", ",", "\"\<open\>\"", ",", "3"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"j", "=", 
+        RowBox[{"Switch", "[", 
+         RowBox[{
+         "tweak", ",", "\"\<min\>\"", ",", "1", ",", "\"\<mid\>\"", ",", "2", 
+          ",", "\"\<max\>\"", ",", "3"}], "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"ReplacePart", "[", 
+        RowBox[{
+         RowBox[{"Params", "[", 
+          RowBox[{"[", 
+           RowBox[{"All", ",", "2"}], "]"}], "]"}], ",", 
+         RowBox[{"i", "\[Rule]", 
+          RowBox[{"Params", "[", 
+           RowBox[{"[", 
+            RowBox[{"i", ",", "j"}], "]"}], "]"}]}]}], "]"}]}]}], 
+     "\[IndentingNewLine]", "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Est", "[", "stock_", "]"}], ":=", 
+   RowBox[{"N", "[", 
+    RowBox[{"Entropy", "[", 
+     RowBox[{"2", ",", 
+      RowBox[{"MonteCarlo", "[", 
+       RowBox[{"stock", ",", "1", ",", "1000", ",", "trials"}], "]"}]}], 
+     "]"}], "]"}]}], ";"}], "\[IndentingNewLine]"}], "Input",
+ CellChangeTimes->{{3.478880025708199*^9, 3.4788800429334993`*^9}, {
+   3.478880083861938*^9, 3.478880141730974*^9}, {3.4788842233869467`*^9, 
+   3.478884257455407*^9}, {3.478884351718018*^9, 3.4788843706432533`*^9}, {
+   3.478884884342197*^9, 3.47888489319249*^9}, {3.478886460597907*^9, 
+   3.4788864610229397`*^9}, {3.478888630355461*^9, 3.4788886311606607`*^9}, 
+   3.47888879733381*^9, {3.478914060890669*^9, 3.478914148014001*^9}, {
+   3.478914206466992*^9, 3.478914233050186*^9}, {3.478914266082766*^9, 
+   3.478914305760666*^9}, {3.47891448994448*^9, 3.478914503724481*^9}, {
+   3.4789573314753*^9, 3.4789573760262623`*^9}, {3.478957464006487*^9, 
+   3.478957470144014*^9}, {3.478958015896811*^9, 3.478958077940769*^9}, {
+   3.478958126180279*^9, 3.478958142189536*^9}, {3.478958400776804*^9, 
+   3.478958400940743*^9}, {3.478971097599711*^9, 3.478971108647958*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"avg", "=", 
+   RowBox[{"getStock", "[", 
+    RowBox[{"\"\<drift\>\"", ",", "\"\<mid\>\""}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.4789582320334663`*^9, 3.478958255540361*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["Drift", "Section",
+ CellChangeTimes->{{3.478958359284313*^9, 3.4789583598284283`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{"Est", "[", 
+  RowBox[{"getStock", "[", 
+   RowBox[{"\"\<drift\>\"", ",", "\"\<min\>\""}], "]"}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Est", "[", 
+  RowBox[{"getStock", "[", 
+   RowBox[{"\"\<drift\>\"", ",", "\"\<mid\>\""}], "]"}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Est", "[", 
+  RowBox[{"getStock", "[", 
+   RowBox[{"\"\<drift\>\"", ",", "\"\<max\>\""}], "]"}], "]"}]}], "Input",
+ CellChangeTimes->{{3.478957156916151*^9, 3.478957158803014*^9}, 
+   3.4789573436971273`*^9, {3.478958147199703*^9, 3.4789581530087643`*^9}}],
+
+Cell[BoxData["6.808996325369655`"], "Output",
+ CellChangeTimes->{3.478959461805781*^9}],
+
+Cell[BoxData["8.5353721420169`"], "Output",
+ CellChangeTimes->{3.478960512980541*^9}],
+
+Cell[BoxData["9.953786345243895`"], "Output",
+ CellChangeTimes->{3.478961567199581*^9}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Diffusion", "Section",
+ CellChangeTimes->{{3.478958359284313*^9, 3.478958376050003*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"temp", "=", "trials"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"trials", "=", "1000000"}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"Est", "[", 
+  RowBox[{"getStock", "[", 
+   RowBox[{"\"\<diffusion\>\"", ",", "\"\<min\>\""}], "]"}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Est", "[", 
+  RowBox[{"getStock", "[", 
+   RowBox[{"\"\<diffusion\>\"", ",", "\"\<mid\>\""}], "]"}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Est", "[", 
+   RowBox[{"getStock", "[", 
+    RowBox[{"\"\<diffusion\>\"", ",", "\"\<max\>\""}], "]"}], "]"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"trials", "=", "temp"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.478958169648651*^9, 3.478958174947754*^9}, {
+  3.478971116880033*^9, 3.478971137340652*^9}}],
+
+Cell[BoxData["8.532975574910088`"], "Output",
+ CellChangeTimes->{3.4789626196278353`*^9, 3.4789816930352488`*^9}],
+
+Cell[BoxData["8.536433266458106`"], "Output",
+ CellChangeTimes->{3.4789626196278353`*^9, 3.478992364423977*^9}],
+
+Cell[BoxData["8.541219146016253`"], "Output",
+ CellChangeTimes->{3.4789626196278353`*^9, 3.479003126040612*^9}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Opening Price", "Section",
+ CellChangeTimes->{{3.478958359284313*^9, 3.478958380235033*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{"Est", "[", 
+  RowBox[{"getStock", "[", 
+   RowBox[{"\"\<open\>\"", ",", "\"\<min\>\""}], "]"}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Est", "[", 
+  RowBox[{"getStock", "[", 
+   RowBox[{"\"\<open\>\"", ",", "\"\<mid\>\""}], "]"}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Est", "[", 
+  RowBox[{"getStock", "[", 
+   RowBox[{"\"\<open\>\"", ",", "\"\<max\>\""}], "]"}], "]"}]}], "Input",
+ CellChangeTimes->{{3.478958177759962*^9, 3.4789581828794518`*^9}}],
+
+Cell[BoxData["7.326995527445346`"], "Output",
+ CellChangeTimes->{3.4789658147295017`*^9}],
+
+Cell[BoxData["8.5297073524725`"], "Output",
+ CellChangeTimes->{3.478966852635964*^9}],
+
+Cell[BoxData["9.849624298738206`"], "Output",
+ CellChangeTimes->{3.478967888911866*^9}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Elapsed Time", "Section",
+ CellChangeTimes->{{3.478958359284313*^9, 3.478958389504489*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{"N", "[", 
+  RowBox[{"Entropy", "[", 
+   RowBox[{"2", ",", 
+    RowBox[{"MonteCarlo", "[", 
+     RowBox[{"avg", ",", "0.5", ",", "1000", ",", "trials"}], "]"}]}], "]"}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"N", "[", 
+  RowBox[{"Entropy", "[", 
+   RowBox[{"2", ",", 
+    RowBox[{"MonteCarlo", "[", 
+     RowBox[{"avg", ",", "1", ",", "1000", ",", "trials"}], "]"}]}], "]"}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"N", "[", 
+  RowBox[{"Entropy", "[", 
+   RowBox[{"2", ",", 
+    RowBox[{"MonteCarlo", "[", 
+     RowBox[{"avg", ",", "2", ",", "1000", ",", "trials"}], "]"}]}], "]"}], 
+  "]"}], "\[IndentingNewLine]"}], "Input",
+ CellChangeTimes->{{3.478958267017324*^9, 3.478958310903221*^9}}],
+
+Cell[BoxData["8.033813167894593`"], "Output",
+ CellChangeTimes->{{3.478958272761612*^9, 3.478958284415984*^9}, 
+   3.4789583242388372`*^9, 3.478968937081601*^9}],
+
+Cell[BoxData["8.530446491149792`"], "Output",
+ CellChangeTimes->{{3.478958272761612*^9, 3.478958284415984*^9}, 
+   3.4789583242388372`*^9, 3.478970011786119*^9}],
+
+Cell[BoxData["9.033446127085712`"], "Output",
+ CellChangeTimes->{{3.478958272761612*^9, 3.478958284415984*^9}, 
+   3.4789583242388372`*^9, 3.478971069650979*^9}]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{705, 673},
+WindowMargins->{{Automatic, 62}, {241, Automatic}},
+FrontEndVersion->"7.0 for Mac OS X x86 (32-bit) (November 10, 2008)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[567, 22, 290, 7, 43, "Input"],
+Cell[860, 31, 199, 3, 20, "Print"]
+}, Open  ]],
+Cell[1074, 37, 3025, 73, 223, "Input"],
+Cell[4102, 112, 220, 5, 27, "Input"],
+Cell[CellGroupData[{
+Cell[4347, 121, 92, 1, 67, "Section"],
+Cell[CellGroupData[{
+Cell[4464, 126, 563, 13, 58, "Input"],
+Cell[5030, 141, 87, 1, 27, "Output"],
+Cell[5120, 144, 85, 1, 27, "Output"],
+Cell[5208, 147, 87, 1, 27, "Output"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5344, 154, 94, 1, 67, "Section"],
+Cell[CellGroupData[{
+Cell[5463, 159, 860, 23, 133, "Input"],
+Cell[6326, 184, 113, 1, 27, "Output"],
+Cell[6442, 187, 111, 1, 27, "Output"],
+Cell[6556, 190, 111, 1, 27, "Output"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[6716, 197, 98, 1, 67, "Section"],
+Cell[CellGroupData[{
+Cell[6839, 202, 486, 12, 58, "Input"],
+Cell[7328, 216, 89, 1, 27, "Output"],
+Cell[7420, 219, 85, 1, 27, "Output"],
+Cell[7508, 222, 87, 1, 27, "Output"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7644, 229, 97, 1, 67, "Section"],
+Cell[CellGroupData[{
+Cell[7766, 234, 725, 19, 73, "Input"],
+Cell[8494, 255, 161, 2, 27, "Output"],
+Cell[8658, 259, 161, 2, 27, "Output"],
+Cell[8822, 263, 161, 2, 27, "Output"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

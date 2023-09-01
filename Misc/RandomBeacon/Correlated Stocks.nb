@@ -1,0 +1,402 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 7.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[     14727,        393]
+NotebookOptionsPosition[     13656,        350]
+NotebookOutlinePosition[     13997,        365]
+CellTagsIndexPosition[     13954,        362]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"SetDirectory", "[", 
+   RowBox[{"NotebookDirectory", "[", "]"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Get", "[", "\"\<StockEntropy.m\>\"", "]"}], ";"}]}], "Input",
+ CellChangeTimes->{3.47940838185926*^9}],
+
+Cell[BoxData["\<\"Library for stock price entropy loaded (Jeremy Clark, 2010, \
+BSD License).\"\>"], "Print",
+ CellChangeTimes->{
+  3.4794083833386393`*^9, 3.479411923915738*^9, 3.479418886957047*^9, 
+   3.479418942746235*^9, 3.479592586080464*^9, {3.4795993909113083`*^9, 
+   3.479599399280158*^9}, 3.479763093019699*^9, 3.479785074246441*^9, 
+   3.479786568410594*^9, 3.479787102335595*^9, 3.479811544277709*^9, 
+   3.4801131779973087`*^9, 3.480126026026635*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Joint Shannon Entropy", "Section",
+ CellChangeTimes->{{3.4798128551189137`*^9, 3.479812884285406*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"Chevron", " ", "CVX"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"s1", "=", 
+     RowBox[{"Stock", "[", 
+      RowBox[{"74.77", ",", "0.000565", ",", "0.0136"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Exxon", " ", "XOM"}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"s2", "=", 
+     RowBox[{"Stock", "[", 
+      RowBox[{"66.95", ",", "0.000032", ",", "0.0124"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"\[Rho]", "=", "0.82"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"T", "=", "1"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"trials", "=", "10000000"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Joint", " ", "Prices"}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"St", "=", 
+     RowBox[{"JointMonteCarlo", "[", 
+      RowBox[{"s1", ",", "s2", ",", "\[Rho]", ",", "T", ",", "trials"}], 
+      "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"St1", "=", 
+     RowBox[{"St", "[", 
+      RowBox[{"[", 
+       RowBox[{"All", ",", "1"}], "]"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"St2", "=", 
+     RowBox[{"St", "[", 
+      RowBox[{"[", 
+       RowBox[{"All", ",", "2"}], "]"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Ent1", "=", 
+     RowBox[{
+      RowBox[{"Entropy", "[", 
+       RowBox[{"2", ",", "St1"}], "]"}], "//", "N"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Ent2", "=", 
+     RowBox[{
+      RowBox[{"Entropy", "[", 
+       RowBox[{"2", ",", "St2"}], "]"}], "//", "N"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Ent", "=", 
+     RowBox[{
+      RowBox[{"Entropy", "[", 
+       RowBox[{"2", ",", 
+        RowBox[{"Hash", "/@", "St"}]}], "]"}], "//", "N"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{"Ent1", ",", "Ent2", ",", "Ent", ",", 
+     RowBox[{"Ent1", "+", "Ent2", "-", "Ent"}]}], "}"}], 
+   "\[IndentingNewLine]"}]}]], "Input",
+ CellChangeTimes->{{3.479409085674553*^9, 3.4794090981264477`*^9}, {
+   3.479409135409506*^9, 3.4794092933287687`*^9}, {3.479409361552009*^9, 
+   3.4794093685238247`*^9}, {3.479409428533959*^9, 3.4794094826466103`*^9}, {
+   3.479409514258347*^9, 3.479409532820787*^9}, {3.4794095753557663`*^9, 
+   3.4794095847405663`*^9}, {3.479409626436339*^9, 3.479409896624322*^9}, 
+   3.479409981257195*^9, {3.479410034763507*^9, 3.4794103870726757`*^9}, {
+   3.4794104300157948`*^9, 3.479410484745719*^9}, {3.479410522459937*^9, 
+   3.479410882383913*^9}, {3.479410971958074*^9, 3.479410985559973*^9}, {
+   3.479411030383884*^9, 3.479411239575595*^9}, {3.479411319904306*^9, 
+   3.4794113402655897`*^9}, {3.479411375228403*^9, 3.479411740062945*^9}, {
+   3.479411772134626*^9, 3.479411772721856*^9}, {3.4794118093652983`*^9, 
+   3.479411814772485*^9}, {3.479411927106711*^9, 3.4794119282627974`*^9}, {
+   3.479411972474236*^9, 3.479411985532693*^9}, {3.479412166403905*^9, 
+   3.479412271111397*^9}, {3.4794123220955276`*^9, 3.479412331025977*^9}, 
+   3.4794123749170847`*^9, 3.4794133862467527`*^9, {3.4794134864522457`*^9, 
+   3.479413540608387*^9}, {3.4794144603775043`*^9, 3.479414475553892*^9}, {
+   3.479415320691351*^9, 3.479415324758947*^9}, {3.479415373946446*^9, 
+   3.479415379573104*^9}, {3.479415470966147*^9, 3.479415474418989*^9}, {
+   3.479416223062149*^9, 3.479416383887677*^9}, {3.479416434876651*^9, 
+   3.4794164639792547`*^9}, {3.479416512752577*^9, 3.479416528500671*^9}, {
+   3.4794165917795897`*^9, 3.479416627603314*^9}, {3.4794167165142803`*^9, 
+   3.479416786699213*^9}, 3.4794168373169327`*^9, {3.479416992172448*^9, 
+   3.479416993709839*^9}, {3.4794170452589293`*^9, 3.4794170662185097`*^9}, {
+   3.4794171004968987`*^9, 3.479417116022458*^9}, {3.479417151458942*^9, 
+   3.479417164561318*^9}, {3.479417215237569*^9, 3.479417216632015*^9}, {
+   3.4794173382237167`*^9, 3.479417339031274*^9}, {3.47941745386998*^9, 
+   3.479417505956725*^9}, {3.479417627268201*^9, 3.4794176279747353`*^9}, {
+   3.47941767938129*^9, 3.47941768456176*^9}, {3.479417867117201*^9, 
+   3.479417967081979*^9}, {3.479418045874547*^9, 3.479418099812223*^9}, {
+   3.479418888945202*^9, 3.4794188893960867`*^9}, {3.479418961183567*^9, 
+   3.479419032295874*^9}, {3.479419065742402*^9, 3.47941908482113*^9}, 
+   3.479419128575935*^9, 3.4797821745545807`*^9, {3.479811537459572*^9, 
+   3.479811576924468*^9}, {3.479811632893821*^9, 3.4798116480792837`*^9}, {
+   3.479811679916057*^9, 3.479811703179029*^9}, {3.479811913689577*^9, 
+   3.479811918578157*^9}, {3.479812034780966*^9, 3.479812056931621*^9}, {
+   3.479812434972773*^9, 3.479812470034793*^9}, {3.47981258828754*^9, 
+   3.479812624799458*^9}, 3.47981281135918*^9, {3.479812847244253*^9, 
+   3.479812847951428*^9}, 3.47981304360126*^9, {3.4798131077579327`*^9, 
+   3.479813108452733*^9}, {3.47981321639147*^9, 3.4798132228019876`*^9}, {
+   3.479813401915176*^9, 3.479813411184065*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+  "8.713193062222167`", ",", "8.420789994853529`", ",", "16.191037394822175`",
+    ",", "0.9429456622535213`"}], "}"}]], "Output",
+ CellChangeTimes->{
+  3.479612342557906*^9, 3.479787842596798*^9, {3.479811541503689*^9, 
+   3.479811568595883*^9}, 3.479811651213852*^9, 3.479811719321903*^9, 
+   3.47981180211082*^9, 3.479811997586182*^9, 3.479812444483959*^9, 
+   3.479812475258766*^9, 3.479812538458207*^9, 3.479812848505096*^9, 
+   3.479813045014007*^9, 3.47981322652302*^9, 3.479813328066931*^9}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Bin and Bias Information", "Section",
+ CellChangeTimes->{{3.479812866080377*^9, 3.47981288820045*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"BinSpread1", "=", 
+   RowBox[{"IntegerPart", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"Max", "[", "St1", "]"}], "*", "100"}], "-", 
+     RowBox[{
+      RowBox[{"Min", "[", "St1", "]"}], "*", "100"}], "+", "1"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"BinSpread2", "=", 
+   RowBox[{"IntegerPart", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"Max", "[", "St2", "]"}], "*", "100"}], "-", 
+     RowBox[{
+      RowBox[{"Min", "[", "St2", "]"}], "*", "100"}], "+", "1"}], "]"}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Spread", "=", 
+    RowBox[{"BinSpread1", "*", "BinSpread2"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Bins1", "=", 
+   RowBox[{"Length", "[", 
+    RowBox[{"DeleteDuplicates", "[", "St1", "]"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Bins2", "=", 
+   RowBox[{"Length", "[", 
+    RowBox[{"DeleteDuplicates", "[", "St2", "]"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Bins", "=", 
+    RowBox[{"Length", "[", 
+     RowBox[{"DeleteDuplicates", "[", 
+      RowBox[{"Hash", "/@", "St"}], "]"}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{
+   "\"\<Spread is \>\"", ",", "Spread", ",", "\"\< (\>\"", ",", "BinSpread1", 
+    ",", "\"\< x \>\"", ",", "BinSpread2", ",", "\"\<)\>\""}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{
+   "\"\<Bins are \>\"", ",", "Bins", ",", "\"\< (\>\"", ",", "Bins1", ",", 
+    "\"\< and \>\"", ",", "Bins2", ",", "\"\<)\>\""}], "]"}], ";"}]}], "Input",\
+
+ CellChangeTimes->{{3.47981146079202*^9, 3.47981152091119*^9}, {
+  3.479811627874238*^9, 3.479811629634007*^9}, {3.47981207292001*^9, 
+  3.479812086202758*^9}, {3.4798130752815447`*^9, 3.479813088699223*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Spread is \"\>", "\[InvisibleSpace]", "480625", 
+   "\[InvisibleSpace]", "\<\" (\"\>", "\[InvisibleSpace]", "769", 
+   "\[InvisibleSpace]", "\<\" x \"\>", "\[InvisibleSpace]", "625", 
+   "\[InvisibleSpace]", "\<\")\"\>"}],
+  SequenceForm["Spread is ", 480625, " (", 769, " x ", 625, ")"],
+  Editable->False]], "Print",
+ CellChangeTimes->{
+  3.479417901175713*^9, 3.479629968321867*^9, 3.479811120583097*^9, {
+   3.4798115494192247`*^9, 3.4798115721988*^9}, 3.47981209080046*^9, 
+   3.479812538767771*^9, 3.479813090924329*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Bins are \"\>", "\[InvisibleSpace]", "9263", 
+   "\[InvisibleSpace]", "\<\" (\"\>", "\[InvisibleSpace]", "588", 
+   "\[InvisibleSpace]", "\<\" and \"\>", "\[InvisibleSpace]", "489", 
+   "\[InvisibleSpace]", "\<\")\"\>"}],
+  SequenceForm["Bins are ", 9263, " (", 588, " and ", 489, ")"],
+  Editable->False]], "Print",
+ CellChangeTimes->{
+  3.479417901175713*^9, 3.479629968321867*^9, 3.479811120583097*^9, {
+   3.4798115494192247`*^9, 3.4798115721988*^9}, 3.47981209080046*^9, 
+   3.479812538767771*^9, 3.479813090926661*^9}]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Joint Min-Entropy", "Section",
+ CellChangeTimes->{{3.47976309597033*^9, 3.479763098889027*^9}, {
+  3.47981287750991*^9, 3.479812880528246*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"Chevron", " ", "CVX"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"s1", "=", 
+     RowBox[{"Stock", "[", 
+      RowBox[{"74.77", ",", "0.000565", ",", "0.0136"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Exxon", " ", "XOM"}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"s2", "=", 
+     RowBox[{"Stock", "[", 
+      RowBox[{"66.95", ",", "0.000032", ",", "0.0124"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", "New", " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"St", "=", 
+     RowBox[{"JointMonteCarlo", "[", 
+      RowBox[{"s1", ",", "s2", ",", "\[Rho]", ",", "T", ",", "trials"}], 
+      "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"St1", "=", 
+     RowBox[{"St", "[", 
+      RowBox[{"[", 
+       RowBox[{"All", ",", "1"}], "]"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"St2", "=", 
+     RowBox[{"St", "[", 
+      RowBox[{"[", 
+       RowBox[{"All", ",", "2"}], "]"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"Ent1", "=", 
+    RowBox[{
+     RowBox[{"MinEntropy", "[", 
+      RowBox[{"2", ",", "St1"}], "]"}], "//", "N"}]}], "\[IndentingNewLine]", 
+   
+   RowBox[{"Ent2", "=", 
+    RowBox[{
+     RowBox[{"MinEntropy", "[", 
+      RowBox[{"2", ",", "St2"}], "]"}], "//", "N"}]}], "\[IndentingNewLine]", 
+   
+   RowBox[{"Ent", "=", 
+    RowBox[{
+     RowBox[{"MinEntropy", "[", 
+      RowBox[{"2", ",", 
+       RowBox[{"Hash", "/@", "St"}]}], "]"}], "//", "N"}]}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"Ent1", "+", "Ent2", "-", "Ent"}], 
+   "\[IndentingNewLine]"}]}]], "Input",
+ CellChangeTimes->{{3.479763108749132*^9, 3.479763113978108*^9}, {
+   3.479782178623725*^9, 3.479782178791543*^9}, {3.4797851107936373`*^9, 
+   3.479785127070924*^9}, 3.479785209107717*^9, 3.4797870307500134`*^9, 
+   3.479811753478949*^9, {3.479812995541109*^9, 3.479813014199678*^9}, {
+   3.4798134163366127`*^9, 3.479813418417095*^9}, {3.480157800180341*^9, 
+   3.480157821043186*^9}}],
+
+Cell[BoxData["7.982361956818548`"], "Output",
+ CellChangeTimes->{3.479786734994471*^9, 3.479786822678966*^9, 
+  3.479786975072051*^9, 3.480115335796672*^9, 3.4801268550974894`*^9}],
+
+Cell[BoxData["7.6940598211515185`"], "Output",
+ CellChangeTimes->{3.479786734994471*^9, 3.479786822678966*^9, 
+  3.479786975072051*^9, 3.480115335796672*^9, 3.4801268631022587`*^9}],
+
+Cell[BoxData["14.63144484475516`"], "Output",
+ CellChangeTimes->{3.479786734994471*^9, 3.479786822678966*^9, 
+  3.479786975072051*^9, 3.480115335796672*^9, 3.4801279249760027`*^9}],
+
+Cell[BoxData["1.0449769332149064`"], "Output",
+ CellChangeTimes->{3.479786734994471*^9, 3.479786822678966*^9, 
+  3.479786975072051*^9, 3.480115335796672*^9, 3.480127931029356*^9}]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{815, 752},
+WindowMargins->{{Automatic, 177}, {Automatic, 69}},
+FrontEndVersion->"7.0 for Mac OS X x86 (32-bit) (November 10, 2008)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[567, 22, 265, 7, 43, "Input"],
+Cell[835, 31, 464, 7, 20, "Print"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1336, 43, 108, 1, 67, "Section"],
+Cell[CellGroupData[{
+Cell[1469, 48, 5188, 105, 328, "Input"],
+Cell[6660, 155, 539, 10, 27, "Output"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7248, 171, 108, 1, 67, "Section"],
+Cell[CellGroupData[{
+Cell[7381, 176, 1897, 55, 163, "Input"],
+Cell[CellGroupData[{
+Cell[9303, 235, 575, 11, 20, "Print"],
+Cell[9881, 248, 573, 11, 20, "Print"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[10515, 266, 149, 2, 67, "Section"],
+Cell[CellGroupData[{
+Cell[10689, 272, 2207, 58, 268, "Input"],
+Cell[12899, 332, 180, 2, 27, "Output"],
+Cell[13082, 336, 181, 2, 27, "Output"],
+Cell[13266, 340, 180, 2, 27, "Output"],
+Cell[13449, 344, 179, 2, 27, "Output"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
