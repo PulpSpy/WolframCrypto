@@ -1,0 +1,197 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 8.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[      6607,        189]
+NotebookOptionsPosition[      5572,        162]
+NotebookOutlinePosition[      6085,        180]
+CellTagsIndexPosition[      6042,        177]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{"On", "[", "Assert", "]"}]], "Input",
+ CellChangeTimes->{{3.912891463336771*^9, 3.91289146783165*^9}},
+ CellLabel->"In[1]:=",ExpressionUUID->"647ea997-9626-4640-9e0e-4eeeabf7858a"],
+
+Cell[CellGroupData[{
+
+Cell["Find a Random {p,q}", "Section",
+ CellChangeTimes->{{3.912891124542823*^9, 3.912891146172906*^9}, {
+  3.9128913512103043`*^9, 
+  3.9128913515766897`*^9}},ExpressionUUID->"7c548d33-9c6e-4dcc-b30d-\
+501dff254345"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"sizep", "=", "32"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"sizeq", "=", "4"}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"q", "=", 
+   RowBox[{"RandomPrime", "[", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"2", "^", 
+       RowBox[{"(", 
+        RowBox[{"sizeq", "-", "1"}], ")"}]}], ",", 
+      RowBox[{"2", "^", "sizeq"}]}], "}"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"r", "=", 
+   RowBox[{"RandomInteger", "[", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"Floor", "[", 
+       RowBox[{
+        RowBox[{"2", "^", 
+         RowBox[{"(", 
+          RowBox[{"sizep", "-", "1"}], ")"}]}], "/", "q"}], "]"}], ",", 
+      RowBox[{"Ceiling", "[", 
+       RowBox[{
+        RowBox[{"2", "^", 
+         RowBox[{"(", "sizep", ")"}]}], "/", "q"}], "]"}]}], "}"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"While", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"!", 
+     RowBox[{"PrimeQ", "[", 
+      RowBox[{
+       RowBox[{"q", "*", "r"}], "+", "1"}], "]"}]}], "||", 
+    RowBox[{
+     RowBox[{"BitLength", "[", 
+      RowBox[{
+       RowBox[{"q", "*", "r"}], "+", "1"}], "]"}], "!=", "sizep"}]}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"r", "=", 
+    RowBox[{"RandomInteger", "[", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"Floor", "[", 
+        RowBox[{
+         RowBox[{"2", "^", 
+          RowBox[{"(", 
+           RowBox[{"sizep", "-", "1"}], ")"}]}], "/", "q"}], "]"}], ",", 
+       RowBox[{"Ceiling", "[", 
+        RowBox[{
+         RowBox[{"2", "^", 
+          RowBox[{"(", "sizep", ")"}]}], "/", "q"}], "]"}]}], "}"}], 
+     "]"}]}]}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"p", "=", 
+    RowBox[{
+     RowBox[{"q", "*", "r"}], "+", "1"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"Assert", "[", 
+  RowBox[{
+   RowBox[{"BitLength", "[", "p", "]"}], "==", "sizep"}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Assert", "[", 
+  RowBox[{
+   RowBox[{"BitLength", "[", "q", "]"}], "==", "sizeq"}], "]"}]}], "Input",
+ CellChangeTimes->{{3.526213234930999*^9, 3.526213562597348*^9}, {
+   3.526213597830984*^9, 3.526213907169779*^9}, {3.526214043584958*^9, 
+   3.526214139346786*^9}, 3.5262144487713203`*^9, {3.9128910716737537`*^9, 
+   3.912891120483622*^9}, {3.9128911566235533`*^9, 3.912891326629491*^9}, {
+   3.9128913566569223`*^9, 3.912891359488605*^9}, {3.912891419606719*^9, 
+   3.912891432838087*^9}, {3.912891479529882*^9, 3.912891482058185*^9}, {
+   3.912891894511005*^9, 3.912891904007763*^9}, {3.9128920619313307`*^9, 
+   3.912892064744519*^9}},
+ CellLabel->"In[2]:=",ExpressionUUID->"baa937ff-165e-4d0e-a1a2-3fd073a5f122"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Find a Generator of Gq", "Section",
+ CellChangeTimes->{{3.912891124542823*^9, 3.912891146172906*^9}, {
+  3.9128913512103043`*^9, 3.9128913515766897`*^9}, {3.912891497502977*^9, 
+  3.912891501446258*^9}},ExpressionUUID->"2389d815-d654-4d2b-ba30-\
+b95cf7478bc8"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"g", "=", "2"}], ";", 
+  RowBox[{"Monitor", "[", 
+   RowBox[{
+    RowBox[{"While", "[", 
+     RowBox[{
+      RowBox[{"MultiplicativeOrder", "[", 
+       RowBox[{
+        RowBox[{"++", "g"}], ",", "p"}], "]"}], "!=", "q"}], "]"}], ",", 
+    RowBox[{"ProgressIndicator", "[", 
+     RowBox[{"g", ",", 
+      RowBox[{"{", 
+       RowBox[{"0", ",", 
+        RowBox[{"p", "/", "q"}]}], "}"}]}], "]"}]}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"{", 
+  RowBox[{"p", ",", "q", ",", "g"}], "}"}]}], "Input",
+ CellChangeTimes->{{3.526214443926015*^9, 3.5262144453537693`*^9}, {
+  3.9128915156893787`*^9, 3.912891596824572*^9}, {3.912891658351974*^9, 
+  3.912891728074745*^9}, {3.912891774776175*^9, 3.9128917751037683`*^9}, {
+  3.912891878088728*^9, 3.912891947270957*^9}, {3.912891988038247*^9, 
+  3.912891995778648*^9}, {3.912892154495276*^9, 3.9128921585363913`*^9}, {
+  3.9128921927065487`*^9, 3.912892196403528*^9}, {3.91289223065268*^9, 
+  3.9128922640772657`*^9}, {3.912892325541984*^9, 3.912892393803355*^9}, {
+  3.912892430721238*^9, 3.91289243178379*^9}, {3.912892613165565*^9, 
+  3.912892618575791*^9}},
+ CellLabel->"In[11]:=",ExpressionUUID->"ad73a1e9-2502-48ad-8743-832f5baf159e"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"4182379631", ",", "13", ",", "366853412"}], "}"}]], "Output",
+ CellChangeTimes->{3.912892621573502*^9, 3.912894258601179*^9},
+ CellLabel->"Out[12]=",ExpressionUUID->"2cf9fd28-1bf1-499c-ac0f-8bb5236ea1da"]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{740, 867},
+WindowMargins->{{Automatic, 97}, {Automatic, 16}},
+PrivateNotebookOptions->{"VersionedStylesheet"->{"Default.nb"[8.] -> False}},
+TaggingRules-><|"TryRealOnly" -> False|>,
+FrontEndVersion->"13.1 for Mac OS X ARM (64-bit) (June 16, 2022)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"49f1c728-b1ce-4a32-88be-47ca77c14d1c"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[557, 20, 203, 3, 30, "Input",ExpressionUUID->"647ea997-9626-4640-9e0e-4eeeabf7858a"],
+Cell[CellGroupData[{
+Cell[785, 27, 217, 4, 67, "Section",ExpressionUUID->"7c548d33-9c6e-4dcc-b30d-501dff254345"],
+Cell[1005, 33, 2736, 79, 241, "Input",ExpressionUUID->"baa937ff-165e-4d0e-a1a2-3fd073a5f122"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3778, 117, 266, 4, 67, "Section",ExpressionUUID->"2389d815-d654-4d2b-ba30-b95cf7478bc8"],
+Cell[CellGroupData[{
+Cell[4069, 125, 1228, 27, 73, "Input",ExpressionUUID->"ad73a1e9-2502-48ad-8743-832f5baf159e"],
+Cell[5300, 154, 244, 4, 57, "Output",ExpressionUUID->"2cf9fd28-1bf1-499c-ac0f-8bb5236ea1da"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
