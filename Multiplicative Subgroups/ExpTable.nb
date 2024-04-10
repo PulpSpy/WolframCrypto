@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       157,          7]
-NotebookDataLength[     21676,        481]
+NotebookDataLength[     21722,        482]
 NotebookOptionsPosition[     20484,        453]
-NotebookOutlinePosition[     20972,        472]
-CellTagsIndexPosition[     20929,        469]
+NotebookOutlinePosition[     21028,        473]
+CellTagsIndexPosition[     20985,        470]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -247,7 +247,8 @@ b8471b631669"],
 Cell[BoxData["\<\"\\n Exponentiation Table for r^c mod 23:\"\>"], "Print",
  CellChangeTimes->{
   3.685185356030253*^9},ExpressionUUID->"c88ab69c-1554-4b00-8a54-\
-aa06a0fd1901"],
+aa06a0fd1901"]
+}, Open  ]],
 
 Cell[BoxData[
  TagBox[GridBox[{
@@ -308,8 +309,7 @@ Cell[BoxData[
   "Grid"]], "Input",
  CellChangeTimes->{{3.883577732950644*^9, 
   3.883577732962902*^9}},ExpressionUUID->"e085de17-c573-4d00-adb1-\
-041b6dd063fc"]
-}, Open  ]],
+041b6dd063fc"],
 
 Cell[CellGroupData[{
 
@@ -457,8 +457,9 @@ PrintingCopies->1,
 PrintingPageRange->{1, Automatic},
 PrivateNotebookOptions->{"VersionedStylesheet"->{"Default.nb"[8.] -> False}},
 Magnification->2.,
-FrontEndVersion->"12.0 for Mac OS X x86 (64-bit) (April 8, 2019)",
-StyleDefinitions->"Default.nb"
+FrontEndVersion->"13.1 for Mac OS X ARM (64-bit) (June 16, 2022)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"2fb6cbd3-0a0a-4412-ba37-b0866c814966"
 ]
 (* End of Notebook Content *)
 
@@ -475,11 +476,11 @@ Cell[CellGroupData[{
 Cell[579, 22, 6314, 155, 461, "Input",ExpressionUUID->"537660dd-e123-4885-a831-48c3056eaf4b"],
 Cell[6896, 179, 200, 4, 47, "Print",ExpressionUUID->"632d5c84-2e36-41f0-b2a8-11166ba513db"],
 Cell[7099, 185, 3741, 59, 1160, "Output",ExpressionUUID->"44507412-ff28-4494-89f2-b8471b631669"],
-Cell[10843, 246, 176, 3, 86, "Print",ExpressionUUID->"c88ab69c-1554-4b00-8a54-aa06a0fd1901"],
-Cell[11022, 251, 3814, 59, 1152, InheritFromParent,ExpressionUUID->"e085de17-c573-4d00-adb1-041b6dd063fc"]
+Cell[10843, 246, 176, 3, 86, "Print",ExpressionUUID->"c88ab69c-1554-4b00-8a54-aa06a0fd1901"]
 }, Open  ]],
+Cell[11034, 252, 3814, 59, 1152, "Input",ExpressionUUID->"e085de17-c573-4d00-adb1-041b6dd063fc"],
 Cell[CellGroupData[{
-Cell[14873, 315, 3869, 99, 370, "Input",ExpressionUUID->"ad5591d6-195b-4712-8622-70a941eeefdd"],
+Cell[14873, 315, 3869, 99, 399, "Input",ExpressionUUID->"ad5591d6-195b-4712-8622-70a941eeefdd"],
 Cell[18745, 416, 1467, 27, 610, "Output",ExpressionUUID->"a14c95db-c40e-4440-9372-a55b6ffa1619"],
 Cell[20215, 445, 253, 5, 67, "Output",ExpressionUUID->"c5c8cce2-5be1-467f-bf41-8e44544c33b7"]
 }, Open  ]]
